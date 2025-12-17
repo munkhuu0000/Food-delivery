@@ -19,18 +19,14 @@ import { _email } from "zod/v4/core";
 import { LoginHeader } from "./LoginHeader";
 import { LoginFooter } from "./LoginFooter";
 
-export const Login = () => {
+export const Resetpassword = () => {
   const formSchema = z.object({
     emailAddress: z.email("Invalid email. Use a format like example@email.com"),
-    password: z
-      .string("Incorrect password. Please try again")
-      .min(2, "Incorrect password. Please try again"),
   });
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       emailAddress: "",
-      password: "",
     },
   });
 
@@ -42,8 +38,8 @@ export const Login = () => {
     <div className="flex gap-10 justify-center items-center">
       <div className="w-104 h-94 flex flex-col ">
         <LoginHeader
-          title={"Log in"}
-          text={"Log in to enjoy your favorite dishes."}
+          title={"Reset your password"}
+          text={"Enter your email to receive a password reset link."}
         />
         <div className="flex flex-col gap-6">
           <Form {...form}>
@@ -65,27 +61,12 @@ export const Login = () => {
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input placeholder="Password" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <p className="font-normal text-[14px] text-[#18181B]">
-                Forgot password?
-              </p>
               <Button
                 type="submit"
                 className="w-full h-9 background/bg-primary"
                 variant="default"
               >
-                Let's Go
+                Send link
               </Button>
             </form>
           </Form>

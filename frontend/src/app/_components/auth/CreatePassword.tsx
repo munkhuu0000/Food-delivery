@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { email, z } from "zod";
-
+import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -19,18 +19,30 @@ import { _email } from "zod/v4/core";
 import { LoginHeader } from "./LoginHeader";
 import { LoginFooter } from "./LoginFooter";
 
-export const Login = () => {
-  const formSchema = z.object({
-    emailAddress: z.email("Invalid email. Use a format like example@email.com"),
-    password: z
-      .string("Incorrect password. Please try again")
-      .min(2, "Incorrect password. Please try again"),
-  });
+const passwordRegex =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+export const Createpassword = () => {
+  const formSchema = z
+    .object({
+      password: z
+        .string()
+        .regex(
+          passwordRegex,
+          "Weak password. Use numbers, symbols, lowercase letters and uppercase letters."
+        ),
+      confirmpassword: z.string(),
+    })
+    .refine((data) => data.password === data.confirmpassword, {
+      message: "Those password did’t match, Try again",
+      path: ["confirmpassword"],
+    });
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      emailAddress: "",
       password: "",
+      confirmpassword: "",
     },
   });
 
@@ -42,23 +54,22 @@ export const Login = () => {
     <div className="flex gap-10 justify-center items-center">
       <div className="w-104 h-94 flex flex-col ">
         <LoginHeader
-          title={"Log in"}
-          text={"Log in to enjoy your favorite dishes."}
+          title={"Create new password"}
+          text={
+            "Set a new password with a combination of letters and numbers for better security."
+          }
         />
         <div className="flex flex-col gap-6">
           <Form {...form}>
             <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
               <FormField
                 control={form.control}
-                name="emailAddress"
+                name="password"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel></FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="Enter your email address"
-                        {...field}
-                      />
+                      <Input placeholder="Password" {...field} />
                     </FormControl>
                     <FormDescription></FormDescription>
                     <FormMessage />
@@ -67,11 +78,11 @@ export const Login = () => {
               />
               <FormField
                 control={form.control}
-                name="password"
+                name="confirmpassword"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Input placeholder="Password" {...field} />
+                      <Input placeholder="Confirm password" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -80,6 +91,12 @@ export const Login = () => {
               <p className="font-normal text-[14px] text-[#18181B]">
                 Forgot password?
               </p>
+              <div className="flex gap-2 flex-row">
+                <Checkbox />
+                <p className="font-normal  text-[16px] text-[#71717A]">
+                  Show password
+                </p>
+              </div>
               <Button
                 type="submit"
                 className="w-full h-9 background/bg-primary"
@@ -89,7 +106,6 @@ export const Login = () => {
               </Button>
             </form>
           </Form>
-          <LoginFooter question={"Don't have an account?"} answer={"Sign up"} />
         </div>
       </div>
       <div className="w-214 h-226 rounded-4xl">
