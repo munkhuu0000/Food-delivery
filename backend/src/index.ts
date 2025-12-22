@@ -1,4 +1,7 @@
 import express from "express";
+import { connectTodatabase } from "./database/index.js";
+
+await connectTodatabase();
 
 const app = express();
 

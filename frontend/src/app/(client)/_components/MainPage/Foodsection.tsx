@@ -55,7 +55,7 @@ export const FoodSection = (props: FoodSectionProps) => {
   const { categoryName } = props;
   return (
     <div className="w-screen px-22 bg-[#404040] gap-13.5 flex items-center flex-col">
-      <Link href={`/category/${categoryName}`}>
+      <Link href={`/menu/${categoryName}`}>
         <p className="font-semibold text-3xl text-[#FFFFFF] place-self-start;">
           {categoryName}
         </p>

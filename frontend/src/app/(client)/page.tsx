@@ -1,6 +1,6 @@
 "use client";
 
-import { MainPage } from "./_components/(MainPage)/MainPage";
+import { MainPage } from "./_components/MainPage/MainPage";
 
 export default function Home() {
   return (

@@ -78,6 +78,7 @@ export const CreateAccount = () => {
           <LoginFooter
             question={"Already have an account?"}
             answer={"Log in "}
+            href={"/login"}
           />
         </div>
       </div>
