@@ -113,6 +113,7 @@ export const CreateStrongPassword = () => {
             </form>
           </Form>
           <LoginFooter
+            href={""}
             question={"Already have an account?"}
             answer={"Log in "}
           />
