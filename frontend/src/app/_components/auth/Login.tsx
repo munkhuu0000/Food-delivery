@@ -1,9 +1,8 @@
 "use client";
-
+import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { email, z } from "zod";
-
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -18,8 +17,12 @@ import { Input } from "@/components/ui/input";
 import { _email } from "zod/v4/core";
 import { LoginHeader } from "./LoginHeader";
 import { LoginFooter } from "./LoginFooter";
+import { Dispatch, SetStateAction, useContext } from "react";
+import { stepContext, StepContextType } from "@/app/login/page";
 
 export const Login = () => {
+  const { handleBack, handleNext } = useContext(stepContext);
+
   const formSchema = z.object({
     emailAddress: z.email("Invalid email. Use a format like example@email.com"),
     password: z
@@ -77,7 +80,10 @@ export const Login = () => {
                   </FormItem>
                 )}
               />
-              <p className="font-normal text-[14px] text-[#18181B]">
+              <p
+                className="font-normal text-[14px] text-[#18181B] cursor-pointer"
+                onClick={handleNext}
+              >
                 Forgot password?
               </p>
               <Button
@@ -89,7 +95,14 @@ export const Login = () => {
               </Button>
             </form>
           </Form>
-          <LoginFooter question={"Don't have an account?"} answer={"Sign up"} />
+          <div className="w-104 h-94 flex flex-row gap-2 justify-center">
+            <p className="font-normal  text-[16px] text-[#71717A]">
+              Don't have an account?
+            </p>
+            <Link href="/signup">
+              <p className="font-normal text-[16px] text-[#2563EB]">Sign up</p>
+            </Link>
+          </div>
         </div>
       </div>
       <div className="w-214 h-226 rounded-4xl">

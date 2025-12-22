@@ -1,6 +1,6 @@
 "use client";
 
-import { FoodSections } from "./Foodsections";
+import { MainPageSections } from "./MainPageSections";
 
 export const MainPage = () => {
   return (
@@ -8,10 +8,7 @@ export const MainPage = () => {
       <div className="w-screen ">
         <img src="/BG.png" alt="" className="w-screen" />
       </div>
-      <FoodSections />
-      <FoodSections />
-      <FoodSections />
-      <FoodSections />
+      <MainPageSections />
     </>
   );
 };

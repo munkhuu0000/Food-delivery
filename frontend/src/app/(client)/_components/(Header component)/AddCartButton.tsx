@@ -20,7 +20,7 @@ export const AddCartButton = () => {
         <SheetTrigger>
           <ShoppingCart />
         </SheetTrigger>
-        <SheetContent className="bg-[#18181B33] w-min-[535px] h-screen ">
+        <SheetContent className="bg-white w-min-[535px] h-screen ">
           <SheetHeader>
             <SheetTitle className=" flex flex-row gap-3 ">
               <>
@@ -33,10 +33,16 @@ export const AddCartButton = () => {
             <SheetDescription className="w-full h-full">
               <Tabs defaultValue="Cart" className="w-full h-11">
                 <TabsList className="w-full h-11 rounded-full">
-                  <TabsTrigger value="Cart" className=" rounded-full h-9">
+                  <TabsTrigger
+                    value="Cart"
+                    className=" rounded-full h-9 data-[state=active]:bg-red-500"
+                  >
                     <p className="text-[18px] font-normal">Cart</p>
                   </TabsTrigger>
-                  <TabsTrigger value="Order" className=" rounded-full h-9">
+                  <TabsTrigger
+                    value="Order"
+                    className=" rounded-full h-9 data-[state=active]:bg-red-500"
+                  >
                     <p className="text-[18px] font-normal">Order</p>
                   </TabsTrigger>
                 </TabsList>

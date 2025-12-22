@@ -18,8 +18,12 @@ import { Input } from "@/components/ui/input";
 import { _email } from "zod/v4/core";
 import { LoginHeader } from "./LoginHeader";
 import { LoginFooter } from "./LoginFooter";
+import { useContext } from "react";
+import { stepContext } from "@/app/login/page";
 
 export const CreateAccount = () => {
+  const { handleBack, handleNext } = useContext(stepContext);
+
   const formSchema = z.object({
     emailAddress: z.email("Invalid email. Use a format like example@email.com"),
   });
@@ -32,6 +36,7 @@ export const CreateAccount = () => {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
+    handleNext();
   }
 
   return (

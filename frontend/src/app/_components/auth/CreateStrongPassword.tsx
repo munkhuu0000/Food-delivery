@@ -18,11 +18,15 @@ import { Input } from "@/components/ui/input";
 import { _email } from "zod/v4/core";
 import { LoginHeader } from "./LoginHeader";
 import { LoginFooter } from "./LoginFooter";
+import { ChevronLeft } from "lucide-react";
+import { useContext } from "react";
+import { stepContext } from "@/app/login/page";
 
 const passwordRegex =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
 export const CreateStrongPassword = () => {
+  const { handleBack, handleNext } = useContext(stepContext);
   const formSchema = z
     .object({
       password: z
@@ -47,15 +51,20 @@ export const CreateStrongPassword = () => {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
+    handleNext();
   }
 
   return (
     <div className="flex gap-10 justify-center items-center">
       <div className="w-104 h-94 flex flex-col ">
+        <Button className="w-9 h-9" variant={"outline"} onClick={handleBack}>
+          <ChevronLeft size={16} strokeWidth={2.25} />
+        </Button>
         <LoginHeader
           title={"Create a strong password"}
           text={"Create a strong password with letters, numbers."}
         />
+
         <div className="flex flex-col gap-6">
           <Form {...form}>
             <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
