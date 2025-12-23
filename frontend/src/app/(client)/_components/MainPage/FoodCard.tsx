@@ -60,7 +60,7 @@ export const FoodCard = ({ image, title, overview, price }: foodCard) => {
             <p className="text-[#09090B] text-[14px] font-normal">{overview}</p>
           </div>
         </DialogTrigger>
-        <DialogContent className="w-[826px] h-[412px] bg-[#FFFFFF] p-6 gap-6 flex justify-center items-center rounded-4xl">
+        <DialogContent className="w-206.5 h-103 bg-[#FFFFFF] p-6 gap-6 flex justify-center items-center rounded-4xl">
           <DialogHeader className="sr-only">
             <DialogTitle className="sr-only"></DialogTitle>
             <DialogDescription className="sr-only"></DialogDescription>
