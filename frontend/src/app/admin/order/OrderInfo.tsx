@@ -12,62 +12,70 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import * as React from "react";
-import { type DateRange } from "react-day-picker";
+import { Modifiers, type DateRange } from "react-day-picker";
 import { Calendar } from "@/components/ui/calendar";
+import { ChevronsUpDown } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
 
-const Calendar05 = () => {
-  const [dateRange, setDateRange] = React.useState<DateRange | undefined>({
-    from: new Date(2025, 5, 12),
-    to: new Date(2025, 6, 15),
-  });
-};
-
-const invoices = [
+const orders = [
   {
-    invoice: "INV001",
-    paymentStatus: "Paid",
-    totalAmount: "$250.00",
-    paymentMethod: "Credit Card",
+    no: "1",
+    customer: "Test@gamil.com",
+    food: "2 foods",
+    date: "2024/12/20",
+    total: "$26.97",
+    deliveryAddress:
+      "2024/12/СБД, 12-р хороо, СБД нэгдсэн эмнэлэг Sbd negdsen emneleg | 100 айлын гүүрэн гарцны хойд талд 4д ногоонСБД, 12-р хороо, СБД нэгдсэн эмнэлэг Sbd negdsen emneleg | 100 айлын гүүрэн гарцны хойд талд 4д ногоон20",
+    deliveryState: "Pending",
   },
   {
-    invoice: "INV002",
-    paymentStatus: "Pending",
-    totalAmount: "$150.00",
-    paymentMethod: "PayPal",
+    no: "2",
+    customer: "Test@gamil.com",
+    food: "2 foods",
+    date: "2024/12/20",
+    total: "$26.97",
+    deliveryAddress:
+      "2024/12/СБД, 12-р хороо, СБД нэгдсэн эмнэлэг Sbd negdsen emneleg | 100 айлын гүүрэн гарцны хойд талд 4д ногоонСБД, 12-р хороо, СБД нэгдсэн эмнэлэг Sbd negdsen emneleg | 100 айлын гүүрэн гарцны хойд талд 4д ногоон20",
+    deliveryState: "Pending",
   },
   {
-    invoice: "INV003",
-    paymentStatus: "Unpaid",
-    totalAmount: "$350.00",
-    paymentMethod: "Bank Transfer",
+    no: "3",
+    customer: "Test@gamil.com",
+    food: "2 foods",
+    date: "2024/12/20",
+    total: "$26.97",
+    deliveryAddress:
+      "2024/12/СБД, 12-р хороо, СБД нэгдсэн эмнэлэг Sbd negdsen emneleg | 100 айлын гүүрэн гарцны хойд талд 4д ногоонСБД, 12-р хороо, СБД нэгдсэн эмнэлэг Sbd negdsen emneleg | 100 айлын гүүрэн гарцны хойд талд 4д ногоон20",
+    deliveryState: "Pending",
   },
   {
-    invoice: "INV004",
-    paymentStatus: "Paid",
-    totalAmount: "$450.00",
-    paymentMethod: "Credit Card",
+    no: "4",
+    customer: "Test@gamil.com",
+    food: "2 foods",
+    date: "2024/12/20",
+    total: "$26.97",
+    deliveryAddress:
+      "2024/12/СБД, 12-р хороо, СБД нэгдсэн эмнэлэг Sbd negdsen emneleg | 100 айлын гүүрэн гарцны хойд талд 4д ногоонСБД, 12-р хороо, СБД нэгдсэн эмнэлэг Sbd negdsen emneleg | 100 айлын гүүрэн гарцны хойд талд 4д ногоон20",
+    deliveryState: "Pending",
   },
   {
-    invoice: "INV005",
-    paymentStatus: "Paid",
-    totalAmount: "$550.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV006",
-    paymentStatus: "Pending",
-    totalAmount: "$200.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
+    no: "5",
+    customer: "Test@gamil.com",
+    food: "2 foods",
+    date: "2024/12/20",
+    total: "$26.97",
+    deliveryAddress:
+      "2024/12/СБД, 12-р хороо, СБД нэгдсэн эмнэлэг Sbd negdsen emneleg | 100 айлын гүүрэн гарцны хойд талд 4д ногоонСБД, 12-р хороо, СБД нэгдсэн эмнэлэг Sbd negdsen emneleg | 100 айлын гүүрэн гарцны хойд талд 4д ногоон20",
+    deliveryState: "Pending",
   },
 ];
 
 export function OrderInfo() {
+  const [dateRange, setDateRange] = React.useState<DateRange | undefined>({
+    from: new Date(),
+    to: new Date(),
+  });
+
   return (
     <div className="w-screen h-min-screen p-6">
       <div className="w-full h-19 flex flex-row justify-between">
@@ -77,14 +85,14 @@ export function OrderInfo() {
         </div>
         <div className="flex flex-row gap-3">
           <div className="w-75 h-9 border border-[#E4E4E7] rounded-full">
-            <Calendar
+            {/* <Calendar
               mode="range"
               defaultMonth={dateRange?.from}
               selected={dateRange}
               onSelect={setDateRange}
-              numberOfMonths={2}
-              className="rounded-lg border shadow-sm"
-            />
+              numberOfMonths={1}
+              className="rounded-lg border shadow-sm z-10"
+            /> */}
           </div>
           <div>
             <Button className="w-45 h-9 bg-[#18181B] text-[#FAFAFA] rounded-full">
@@ -94,24 +102,38 @@ export function OrderInfo() {
         </div>
       </div>
       <Table>
-        <TableCaption>A list of your recent invoices.</TableCaption>
+        <TableCaption>A list of your recent orders.</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px]">Invoice</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Method</TableHead>
-            <TableHead className="text-right">Amount</TableHead>
+            <TableHead>
+              <Checkbox />
+            </TableHead>
+            <TableHead className="w-[100px]">№</TableHead>
+            <TableHead>Customer</TableHead>
+            <TableHead>Food</TableHead>
+            <TableHead className="flex flex-row items-center gap-2">
+              Date <ChevronsUpDown />
+            </TableHead>
+            <TableHead>Total</TableHead>
+            <TableHead>Delivery address</TableHead>
+            <TableHead className="flex flex-row items-center gap-2">
+              Delivery state <ChevronsUpDown />
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {invoices.map((invoice) => (
-            <TableRow key={invoice.invoice}>
-              <TableCell className="font-medium">{invoice.invoice}</TableCell>
-              <TableCell>{invoice.paymentStatus}</TableCell>
-              <TableCell>{invoice.paymentMethod}</TableCell>
-              <TableCell className="text-right">
-                {invoice.totalAmount}
+          {orders.map((order) => (
+            <TableRow key={order?.no}>
+              <TableCell className="font-medium">
+                <Checkbox />
               </TableCell>
+              <TableCell>{order?.no}</TableCell>
+              <TableCell>{order?.customer}</TableCell>
+              <TableCell>{order?.food}</TableCell>
+              <TableCell>{order?.date}</TableCell>
+              <TableCell>{order?.total}</TableCell>
+              <TableCell>{order?.deliveryAddress}</TableCell>
+              <TableCell>{order?.deliveryState}</TableCell>
             </TableRow>
           ))}
         </TableBody>
