@@ -30,29 +30,27 @@ export const AddCartButton = () => {
                 </p>
               </>
             </SheetTitle>
-            <SheetDescription className="w-full h-full">
-              <Tabs defaultValue="Cart" className="w-full h-11">
-                <TabsList className="w-full h-11 rounded-full">
-                  <TabsTrigger
-                    value="Cart"
-                    className=" rounded-full h-9 data-[state=active]:bg-red-500"
-                  >
-                    <p className="text-[18px] font-normal">Cart</p>
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="Order"
-                    className=" rounded-full h-9 data-[state=active]:bg-red-500"
-                  >
-                    <p className="text-[18px] font-normal">Order</p>
-                  </TabsTrigger>
-                </TabsList>
-                <TabsContent value="Cart">
-                  <div className="w-117.75 h-133 bg-[#FAFAFA] rounded-4xl"></div>
-                </TabsContent>
-                <TabsContent value="Order"></TabsContent>
-              </Tabs>
-            </SheetDescription>
           </SheetHeader>
+          <Tabs defaultValue="Cart" className="w-full h-11">
+            <TabsList className="w-full h-11 rounded-full">
+              <TabsTrigger
+                value="Cart"
+                className=" rounded-full h-9 data-[state=active]:bg-red-500"
+              >
+                <div className="text-[18px] font-normal">Cart</div>
+              </TabsTrigger>
+              <TabsTrigger
+                value="Order"
+                className=" rounded-full h-9 data-[state=active]:bg-red-500"
+              >
+                <div className="text-[18px] font-normal">Order</div>
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="Cart">
+              <div className="w-117.75 h-133 bg-[#FAFAFA] rounded-4xl"></div>
+            </TabsContent>
+            <TabsContent value="Order"></TabsContent>
+          </Tabs>
         </SheetContent>
       </Sheet>
     </div>
