@@ -12,6 +12,8 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { MiniFoodCard } from "./MiniFoodCard";
+import { foods } from "../MainPage/Foodsection";
 
 export const AddCartButton = () => {
   return (
@@ -20,7 +22,7 @@ export const AddCartButton = () => {
         <SheetTrigger>
           <ShoppingCart />
         </SheetTrigger>
-        <SheetContent className="bg-[#404040] w-min-[535px] h-screen ">
+        <SheetContent className="bg-[#404040] w-133.75 min-h-screen ">
           <SheetHeader>
             <SheetTitle className=" flex flex-row gap-3 ">
               <>
@@ -46,8 +48,18 @@ export const AddCartButton = () => {
                 <div className="text-[18px] font-normal">Order</div>
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="Cart">
-              <div className="w-117.75 h-133 bg-[#FAFAFA] rounded-4xl"></div>
+            <TabsContent value="Cart" className="w-200 p-4 rounded-4xl">
+              <div className="w-117.75 h-133 bg-[#FAFAFA] rounded-4xl">
+                {foods.map((food) => (
+                  <MiniFoodCard
+                    key={food.id}
+                    image={food.image}
+                    title={food.title}
+                    overview={food.overview}
+                    price={food.price}
+                  />
+                ))}
+              </div>
             </TabsContent>
             <TabsContent value="Order"></TabsContent>
           </Tabs>

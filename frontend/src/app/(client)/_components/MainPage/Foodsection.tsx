@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { FoodCard } from "./FoodCard";
 
-const foods = [
+export const foods = [
   {
+    id: "asd12",
     image: "fingerfood.png",
     title: "finger food",
     price: "12.99$",
@@ -12,6 +13,7 @@ const foods = [
       "Fluffy pancakes stacked with fruits, cream, syrup, and powdered sugar.",
   },
   {
+    id: "asd13",
     image: "fingerfood.png",
     title: "finger food",
     price: "12.99$",
@@ -19,6 +21,7 @@ const foods = [
       "Fluffy pancakes stacked with fruits, cream, syrup, and powdered sugar.",
   },
   {
+    id: "asd14",
     image: "fingerfood.png",
     title: "finger food",
     price: "12.99$",
@@ -26,6 +29,7 @@ const foods = [
       "Fluffy pancakes stacked with fruits, cream, syrup, and powdered sugar.",
   },
   {
+    id: "asd15",
     image: "fingerfood.png",
     title: "finger food",
     price: "12.99$",
@@ -33,6 +37,7 @@ const foods = [
       "Fluffy pancakes stacked with fruits, cream, syrup, and powdered sugar.",
   },
   {
+    id: "asd16",
     image: "fingerfood.png",
     title: "finger food",
     price: "12.99$",
@@ -40,6 +45,7 @@ const foods = [
       "Fluffy pancakes stacked with fruits, cream, syrup, and powdered sugar.",
   },
   {
+    id: "asd17",
     image: "fingerfood.png",
     title: "finger food",
     price: "12.99$",
