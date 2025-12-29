@@ -123,3 +123,21 @@
     @apply bg-background text-foreground;
   }
 }
+
+.scrollbar-custom::-webkit-scrollbar {
+  width: 8px;
+  height: 80%;
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 9999px; /* бүрэн дугуй */
+  min-height: 36px; /* дунд зэргийн богино */
+  border: 3px solid transparent;
+  background-clip: padding-box;
+  transition: background 0.2s;
+}

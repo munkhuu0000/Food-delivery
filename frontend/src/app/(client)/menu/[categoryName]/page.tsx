@@ -1,6 +1,7 @@
 "use client";
 
 import { use } from "react";
+import { MiniFoodCard } from "../../_components/Header component/MiniFoodCard";
 
 const Category = ({
   params,

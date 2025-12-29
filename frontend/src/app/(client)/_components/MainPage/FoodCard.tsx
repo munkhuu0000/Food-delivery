@@ -11,13 +11,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-
-type foodCard = {
-  image: string;
-  price: string;
-  overview: string;
-  title: string;
-};
+import { foodCard } from "../Header component/MiniFoodCard";
 
 export const FoodCard = ({ image, title, overview, price }: foodCard) => {
   const [isAdded, setIsAdded] = useState(false);
