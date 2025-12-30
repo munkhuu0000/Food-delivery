@@ -10,6 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Link from "next/link";
 
 export const UserButton = () => {
   return (
@@ -21,9 +22,11 @@ export const UserButton = () => {
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-47 h-26 flex flex-col justify-center items-center gap-2">
             <DropdownMenuLabel>Test@gmail.com</DropdownMenuLabel>
-            <Button variant="outline" className="rounded-full bg-[#F4F4F5]">
-              Sign out
-            </Button>
+            <Link href="/login">
+              <Button variant="outline" className="rounded-full bg-[#F4F4F5]">
+                Sign out
+              </Button>
+            </Link>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

@@ -40,8 +40,8 @@ export const MiniFoodCard = ({ image, title, overview, price }: foodCard) => {
             <p className="text-[#EF4444] text-[16px] font-bold">{title}</p>
             <p className="text-[#09090B] text-[12px] font-normal">{overview}</p>
           </div>
-          <Button className="w-9 h-9 border bg-[#FAFAFA] border-[#EF4444] text-[#EF4444] rounded-full">
-            <X className="w-4 h-4 rounded-full bg-[#FAFAFA] " />
+          <Button className="w-9 h-9 border bg-[#FAFAFA] border-[#EF4444] text-[#EF4444] rounded-full hover:bg-[#404040]">
+            <X className="w-4 h-4 rounded-full bg-transparent" />
           </Button>
         </div>
         <div className="w-full flex flex-row justify-between">

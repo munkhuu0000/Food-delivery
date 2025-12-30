@@ -304,7 +304,9 @@ export function OrderInfo() {
                 </div>
               </TableCell>
               <TableCell>
-                <Button variant={"outline"}>{order?.deliveryState}</Button>
+                <Button variant={"outline"} className="rounded-full">
+                  {order?.deliveryState}
+                </Button>
               </TableCell>
             </TableRow>
           ))}
