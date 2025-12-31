@@ -2,18 +2,26 @@
 
 import { FoodSection } from "./Foodsection";
 
-const foodCategory = [
+export const foodCategory = [
+  {
+    categoryName: "All Dishes",
+    categoryId: "C0",
+  },
   {
     categoryName: "Appetizers",
+    categoryId: "C1",
   },
   {
     categoryName: "Salads",
+    categoryId: "C2",
   },
   {
     categoryName: "Lunchfavorites",
+    categoryId: "C3",
   },
   {
     categoryName: "Drinks",
+    categoryId: "C4",
   },
 ];
 
@@ -22,7 +30,7 @@ export const MainPageSections = () => {
     <div>
       {foodCategory.map((el) => {
         return (
-          <FoodSection key={el?.categoryName} categoryName={el?.categoryName} />
+          <FoodSection key={el?.categoryId} categoryName={el?.categoryName} />
         );
       })}
     </div>

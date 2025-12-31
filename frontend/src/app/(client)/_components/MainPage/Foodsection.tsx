@@ -5,44 +5,58 @@ import { FoodCard } from "./FoodCard";
 
 export const foods = [
   {
-    id: "asd12",
+    id: "food12",
     image: "fingerfood.png",
     title: "finger food",
     price: 12.99,
     overview:
       "Fluffy pancakes stacked with fruits, cream, syrup, and powdered sugar.",
+    categoryId: "C1",
   },
   {
-    id: "asd13",
+    id: "food13",
     image: "fingerfood.png",
     title: "finger food",
     price: 12.99,
     overview:
       "Fluffy pancakes stacked with fruits, cream, syrup, and powdered sugar.",
+    categoryId: "C1",
   },
   {
-    id: "asd14",
+    id: "food14",
     image: "fingerfood.png",
     title: "finger food",
     price: 12.99,
     overview:
       "Fluffy pancakes stacked with fruits, cream, syrup, and powdered sugar.",
+    categoryId: "C1",
   },
   {
-    id: "asd15",
+    id: "food15",
     image: "fingerfood.png",
     title: "finger food",
     price: 12.99,
     overview:
       "Fluffy pancakes stacked with fruits, cream, syrup, and powdered sugar.",
+    categoryId: "C1",
   },
   {
-    id: "asd16",
+    id: "food16",
     image: "fingerfood.png",
     title: "finger food",
     price: 12.99,
     overview:
       "Fluffy pancakes stacked with fruits, cream, syrup, and powdered sugar.",
+    categoryId: "C1",
+  },
+  {
+    id: "food16",
+    image: "fingerfood.png",
+    title: "finger food",
+    price: 12.99,
+    overview:
+      "Fluffy pancakes stacked with fruits, cream, syrup, and powdered sugar.",
+    categoryId: "C1",
   },
 ];
 type FoodSectionProps = {
@@ -59,9 +73,9 @@ export const FoodSection = (props: FoodSectionProps) => {
         </p>
       </Link>
       <div className="w-316 grid grid-rows-2 grid-cols-3 gap-9 justify-center pb-13.5 ">
-        {foods.map((food, index) => (
+        {foods.map((food) => (
           <FoodCard
-            key={index}
+            key={food?.id}
             image={food.image}
             title={food.title}
             price={food.price}
