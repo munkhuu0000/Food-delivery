@@ -7,7 +7,7 @@ export const foods = [
   {
     id: "food12",
     image: "fingerfood.png",
-    title: "finger food",
+    title: "Finger food",
     price: 12.99,
     overview:
       "Fluffy pancakes stacked with fruits, cream, syrup, and powdered sugar.",
@@ -16,7 +16,7 @@ export const foods = [
   {
     id: "food13",
     image: "fingerfood.png",
-    title: "finger food",
+    title: "Finger food",
     price: 12.99,
     overview:
       "Fluffy pancakes stacked with fruits, cream, syrup, and powdered sugar.",
@@ -25,7 +25,7 @@ export const foods = [
   {
     id: "food14",
     image: "fingerfood.png",
-    title: "finger food",
+    title: "Finger food",
     price: 12.99,
     overview:
       "Fluffy pancakes stacked with fruits, cream, syrup, and powdered sugar.",
@@ -34,7 +34,7 @@ export const foods = [
   {
     id: "food15",
     image: "fingerfood.png",
-    title: "finger food",
+    title: "Finger food",
     price: 12.99,
     overview:
       "Fluffy pancakes stacked with fruits, cream, syrup, and powdered sugar.",
@@ -43,16 +43,16 @@ export const foods = [
   {
     id: "food16",
     image: "fingerfood.png",
-    title: "finger food",
+    title: "Finger food",
     price: 12.99,
     overview:
       "Fluffy pancakes stacked with fruits, cream, syrup, and powdered sugar.",
     categoryId: "C1",
   },
   {
-    id: "food16",
+    id: "food17",
     image: "fingerfood.png",
-    title: "finger food",
+    title: "Finger food",
     price: 12.99,
     overview:
       "Fluffy pancakes stacked with fruits, cream, syrup, and powdered sugar.",
