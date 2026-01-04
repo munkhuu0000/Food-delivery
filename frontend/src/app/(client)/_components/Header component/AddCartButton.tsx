@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/sheet";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MiniFoodCard } from "./MiniFoodCard";
-import { foods } from "../MainPage/Foodsection";
+import { foodItems } from "../../page";
 import { X } from "lucide-react";
 import {
   Dialog,
@@ -30,12 +30,26 @@ import {
 } from "@/components/ui/dialog";
 import { Clock } from "lucide-react";
 import { Map } from "lucide-react";
+import { useCart } from "../context/CartContext";
+import { CartContent } from "./CartContent";
 
 export const AddCartButton = () => {
-  // const totalFoodPrice =
+  const {
+    cartItems,
+    removeFromCart,
+    updateQuantity,
+    getTotalPrice,
+    isCartOpen,
+    setisCartOpen,
+  } = useCart();
+
+  const subTotal = getTotalPrice();
+  const shipping = 0.99;
+  const total = subTotal + shipping;
+
   return (
     <div className="rounded-full bg-[#F4F4F5] w-9 h-9 flex justify-center items-center">
-      <Sheet>
+      <Sheet open={isCartOpen} onOpenChange={setisCartOpen}>
         <SheetTrigger>
           <ShoppingCart />
         </SheetTrigger>
@@ -78,86 +92,14 @@ export const AddCartButton = () => {
               className="w-full rounded-4xl flex flex-col gap-6 items-center"
             >
               <div className="w-full bg-[#FAFAFA] rounded-4xl flex-5 flex flex-col overflow-y-scroll scrollbar-custom">
-                {foods.map((food) => (
-                  <MiniFoodCard
-                    key={food.id}
-                    image={food.image}
-                    title={food.title}
-                    overview={food.overview}
-                    price={food.price}
-                  />
-                ))}
-                <div className="w-full h-29 border-0 flex flex-col gap-3 p-5">
-                  <Label
-                    htmlFor="Delivery location"
-                    className="font-semibold  text-[20px] text-[#71717A]"
-                  >
-                    Delivery location
-                  </Label>
-                  <Input
-                    id="Delivery location"
-                    placeholder="Please share your complete address"
-                    className="w-full min-h-20"
-                  />
-                </div>
-              </div>
-              <div className="w-full bg-[#FAFAFA] rounded-4xl flex flex-col flex-1 p-5 gap-3">
-                <div className="w-full h-29 border-0 flex flex-col gap-2 border-b border-dashed border-[#09090B80]">
-                  <p className="font-semibold  text-[20px] text-[#71717A]">
-                    Payment info
-                  </p>
-                  <div className="w-full flex flex-row justify-between">
-                    <p className="font-normal text-[14px] text-[#71717A]">
-                      Items
-                    </p>
-                    <p className="text-[#09090B] text-[16px] font-bold flex items-center">
-                      $250
-                    </p>
-                  </div>
-                  <div className="w-full flex flex-row justify-between">
-                    <p className="font-normal text-[14px] text-[#71717A]">
-                      Shipping info
-                    </p>
-                    <p className="text-[#09090B] text-[16px] font-bold flex items-center">
-                      $0.99
-                    </p>
-                  </div>
-                </div>
-                <div className="w-full flex flex-row justify-between">
-                  <p className="font-normal text-[14px] text-[#71717A]">
-                    Total
-                  </p>
-                  <p className="text-[#09090B] text-[16px] font-bold flex items-center">
-                    $250.99
-                  </p>
-                </div>
-                <Dialog>
-                  <DialogTrigger className="w-full">
-                    <div className="w-full h-9 bg-[#EF4444] rounded-full flex flex-row items-center justify-center gap-1 px-3 py-2 hover:bg-[#404040] text-[14px] text-[#FAFAFA] font-medium">
-                      Checkout
-                    </div>
-                  </DialogTrigger>
-                  <DialogContent className="w-166 h-109.75 [&>button]:hidden flex flex-col items-center">
-                    <DialogHeader>
-                      <DialogTitle className="text-[#09090B] text-[24px] font-semibold">
-                        Your order has been successfully placed !
-                      </DialogTitle>
-                      <DialogDescription></DialogDescription>
-                    </DialogHeader>
-                    <img
-                      src="/kid.png"
-                      alt=""
-                      className="object-contain w-39 h-66.25"
-                    />
-                    <DialogFooter>
-                      <DialogClose>
-                        <div className="w-47 h-11 rounded-full bg-[#F4F4F5] flex justify-center items-center hover:bg-[#404040] hover:text-[#FAFAFA]">
-                          Back to home
-                        </div>
-                      </DialogClose>
-                    </DialogFooter>
-                  </DialogContent>
-                </Dialog>
+                <CartContent
+                  cartItems={cartItems}
+                  subTotal={subTotal}
+                  shipping={shipping}
+                  total={total}
+                  onUpdateQuantity={updateQuantity}
+                  onRemoveFromCart={removeFromCart}
+                />
               </div>
             </TabsContent>
             <TabsContent

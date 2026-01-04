@@ -2,66 +2,15 @@
 
 import Link from "next/link";
 import { FoodCard } from "./FoodCard";
+import { FoodItem, foodItems } from "../../page";
 
-export const foods = [
-  {
-    id: "food12",
-    image: "fingerfood.png",
-    title: "Finger food",
-    price: 12.99,
-    overview:
-      "Fluffy pancakes stacked with fruits, cream, syrup, and powdered sugar.",
-    categoryId: "C1",
-  },
-  {
-    id: "food13",
-    image: "fingerfood.png",
-    title: "Finger food",
-    price: 12.99,
-    overview:
-      "Fluffy pancakes stacked with fruits, cream, syrup, and powdered sugar.",
-    categoryId: "C1",
-  },
-  {
-    id: "food14",
-    image: "fingerfood.png",
-    title: "Finger food",
-    price: 12.99,
-    overview:
-      "Fluffy pancakes stacked with fruits, cream, syrup, and powdered sugar.",
-    categoryId: "C1",
-  },
-  {
-    id: "food15",
-    image: "fingerfood.png",
-    title: "Finger food",
-    price: 12.99,
-    overview:
-      "Fluffy pancakes stacked with fruits, cream, syrup, and powdered sugar.",
-    categoryId: "C1",
-  },
-  {
-    id: "food16",
-    image: "fingerfood.png",
-    title: "Finger food",
-    price: 12.99,
-    overview:
-      "Fluffy pancakes stacked with fruits, cream, syrup, and powdered sugar.",
-    categoryId: "C1",
-  },
-  {
-    id: "food17",
-    image: "fingerfood.png",
-    title: "Finger food",
-    price: 12.99,
-    overview:
-      "Fluffy pancakes stacked with fruits, cream, syrup, and powdered sugar.",
-    categoryId: "C1",
-  },
-];
-type FoodSectionProps = {
+// type FoodSectionProps = {
+//   categoryName: string;
+// };
+interface FoodSectionProps {
+  key: string;
   categoryName: string;
-};
+}
 
 export const FoodSection = (props: FoodSectionProps) => {
   const { categoryName } = props;
@@ -72,17 +21,6 @@ export const FoodSection = (props: FoodSectionProps) => {
           {categoryName}
         </p>
       </Link>
-      <div className="w-316 grid grid-rows-2 grid-cols-3 gap-9 justify-center pb-13.5 ">
-        {foods.map((food) => (
-          <FoodCard
-            key={food?.id}
-            image={food.image}
-            title={food.title}
-            price={food.price}
-            overview={food.overview}
-          />
-        ))}
-      </div>
     </div>
   );
 };

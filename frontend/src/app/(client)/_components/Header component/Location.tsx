@@ -4,15 +4,42 @@ import { ChevronRight, MapPin, ShoppingCart, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Textarea } from "@/components/ui/textarea";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { useState } from "react";
 
 export const Location = () => {
+  const formSchema = z.object({
+    location: z.string(),
+  });
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      location: "",
+    },
+  });
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values);
+  }
+
   return (
     <div className="w-min-64 h-9 bg-[#FFFFFF] rounded-full flex flex-row items-center justify-center gap-1 px-3 py-2">
       <MapPin className="w-5 h-5 text-[#EF4444]" />
@@ -26,18 +53,47 @@ export const Location = () => {
         <DialogContent className="w-130.5 h-min-72">
           <DialogHeader>
             <DialogTitle>Please write your delivery address!</DialogTitle>
-            <DialogDescription>
-              <Textarea placeholder=" Please share your complete address." />
-            </DialogDescription>
+            <DialogDescription></DialogDescription>
           </DialogHeader>
-          <div className="flex row gap-4 justify-end">
-            <Button variant="outline" className="w-19.75 h-10">
-              Cancel
-            </Button>
-            <Button variant="default" className="w-28.75 h-10">
-              Deliver here
-            </Button>
-          </div>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <FormField
+                control={form.control}
+                name="location"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel></FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Please share your complete address"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription></FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className="w-full flex flex-row justify-end gap-3">
+                <DialogClose asChild>
+                  <Button
+                    variant={"outline"}
+                    className="px-4 py-1.5 rounded-md text-[14px] font-medium"
+                  >
+                    Cancel
+                  </Button>
+                </DialogClose>
+                <DialogClose asChild>
+                  <Button
+                    type="submit"
+                    className="px-4 py-2 rounded-md text-[14px] font-medium"
+                  >
+                    Deliver here
+                  </Button>
+                </DialogClose>
+              </div>
+            </form>
+          </Form>
         </DialogContent>
       </Dialog>
     </div>

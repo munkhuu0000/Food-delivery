@@ -12,14 +12,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { foods } from "../MainPage/Foodsection";
+import { foods } from "../../page";
 import { Minus } from "lucide-react";
 
 export type foodCard = {
+  id: number;
   image: string;
-  price: number;
+  price: string;
   overview: string;
   title: string;
+  categoryId: string;
 };
 
 export const MiniFoodCard = ({ image, title, overview, price }: foodCard) => {
@@ -30,7 +32,7 @@ export const MiniFoodCard = ({ image, title, overview, price }: foodCard) => {
   const handleMinusButtonClick = () => {
     setFoodcount((prev) => prev - 1);
   };
-  const totalPrice = price * foodCount;
+
   return (
     <div className="w-full flex flex-row border-b border-dashed border-[#09090B80] p-5 gap-3">
       <img src={image} alt="" className="w-31 h-30 object-cover rounded-xl" />
@@ -63,9 +65,7 @@ export const MiniFoodCard = ({ image, title, overview, price }: foodCard) => {
               <Plus />
             </Button>
           </div>
-          <p className="text-[#09090B] text-[18px] font-semibold flex items-center">
-            ${totalPrice.toFixed(2)}
-          </p>
+          <p className="text-[#09090B] text-[18px] font-semibold flex items-center"></p>
         </div>
       </div>
     </div>

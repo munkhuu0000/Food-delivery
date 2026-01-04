@@ -20,33 +20,39 @@ export function FoodBadge() {
             <Badge
               variant="outline"
               key={category?.categoryId}
-              className={
+              className={`flex flex-row gap-2 py-2 px-4 ${
                 selectedCategoryId === category.categoryId
-                  ? "outline"
-                  : "border-[#EF4444]"
-              }
+                  ? "border-[#EF4444]"
+                  : "outline"
+              }`}
               onClick={() => setSelectedCategoryId(category.categoryId)}
             >
               {category?.categoryName}
               {filteredFoods?.length}
             </Badge>
           ))}
-
-          {/* Шүүсэн хоолнуудыг харуулах хэсэг
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredFoods.length > 0 ? (
-          filteredFoods.map((food) => (
-            <div key={food.id} className="border rounded-lg p-4 shadow hover:shadow-lg transition">
-              <img src={food.image} alt={food.title} className="w-full h-48 object-cover rounded" />
-              <h3 className="text-lg font-semibold mt-2">{food.title}</h3>
-              <p className="text-sm text-gray-600">{food.overview}</p>
-              <p className="text-xl font-bold mt-2">${food.price}</p>
-            </div>
-          ))
-        ) : (
-          <p>Энэ категорид хоол байхгүй байна.</p>
-        )}
-      </div> */}
+          {/* Шүүсэн хоолнуудыг харуулах хэсэг */}
+          {/* <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredFoods.length > 0 ? (
+              filteredFoods.map((food) => (
+                <div
+                  key={food.id}
+                  className="border rounded-lg p-4 shadow hover:shadow-lg transition"
+                >
+                  <img
+                    src={food.image}
+                    alt={food.title}
+                    className="w-full h-48 object-cover rounded"
+                  />
+                  <h3 className="text-lg font-semibold mt-2">{food.title}</h3>
+                  <p className="text-sm text-gray-600">{food.overview}</p>
+                  <p className="text-xl font-bold mt-2">${food.price}</p>
+                </div>
+              ))
+            ) : (
+              <p>Энэ категорид хоол байхгүй байна.</p>
+            )}
+          </div> */}
         </div>
       </div>
     </div>
