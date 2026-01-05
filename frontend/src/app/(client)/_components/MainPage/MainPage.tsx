@@ -1,12 +1,12 @@
 "use client";
 
-import { FoodItem, foodItems } from "../../page";
+import { FoodItemType } from "../../page";
 import { FoodCard } from "./FoodCard";
 import { FoodSection } from "./Foodsection";
 interface MainPageProps {
   categories: { categoryName: string; categoryId: string }[];
-  food: FoodItem[];
-  onItemClick: (item: FoodItem) => void;
+  food: FoodItemType[];
+  onItemClick: (item: FoodItemType) => void;
 }
 
 export const MainPage = ({ categories, food, onItemClick }: MainPageProps) => {
@@ -17,10 +17,11 @@ export const MainPage = ({ categories, food, onItemClick }: MainPageProps) => {
       </div>
       <div>
         {categories.slice(1, 5).map((el) => (
-          <FoodSection key={el?.categoryId} categoryName={el?.categoryName} />
-        ))}
-        {food.map((foods) => (
-          <FoodCard key={foods?.id} food={foods} onClick={onItemClick} />
+          <FoodSection
+            key={el?.categoryId}
+            categoryName={el?.categoryName}
+            id={el?.categoryId}
+          />
         ))}
       </div>
     </>

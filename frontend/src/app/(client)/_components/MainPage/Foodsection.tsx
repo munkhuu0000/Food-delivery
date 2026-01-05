@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { FoodItemType, foodItems } from "../../page";
 import { FoodCard } from "./FoodCard";
-import { FoodItem, foodItems } from "../../page";
 
 // type FoodSectionProps = {
 //   categoryName: string;
@@ -10,6 +10,7 @@ import { FoodItem, foodItems } from "../../page";
 interface FoodSectionProps {
   key: string;
   categoryName: string;
+  id: string;
 }
 
 export const FoodSection = (props: FoodSectionProps) => {
@@ -21,6 +22,19 @@ export const FoodSection = (props: FoodSectionProps) => {
           {categoryName}
         </p>
       </Link>
+      <div className="w-full grid grid-cols-3 grid-rows-2 gap-3">
+        {foodItems.map((el) => (
+          <FoodCard
+            key={el?.id}
+            id={el.id}
+            image={el.image}
+            overview={el.overview}
+            title={el.title}
+            price={el.price}
+            categoryId={el.categoryId}
+          />
+        ))}
+      </div>
     </div>
   );
 };

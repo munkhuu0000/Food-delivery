@@ -6,17 +6,17 @@ import {
   useContext,
   useState,
 } from "react";
-import { foodCard } from "../Header component/MiniFoodCard";
-import { foodItems } from "../../page";
+
+import { foodItems, FoodItemType } from "../../page";
 import { AddCartButton } from "../Header component/AddCartButton";
 
-export type CartItem = foodCard & {
+export type CartItem = FoodItemType & {
   quantity: number;
 };
 
 interface CartContextType {
   cartItems: CartItem[];
-  addToCart: (item: foodCard) => void;
+  addToCart: (item: FoodItemType) => void;
   removeFromCart: (id: number) => void;
   updateQuantity: (id: number, quantity: number) => void;
   getTotalItems: () => number;
@@ -30,7 +30,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setisCartOpen] = useState(false);
 
-  const addToCart = (item: foodCard) => {
+  const addToCart = (item: FoodItemType) => {
     setCartItems((prevItems) => {
       const existingItem = prevItems.find((i) => i.id === item.id);
       if (existingItem) {

@@ -12,19 +12,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { foods } from "../../page";
+import { foodItems } from "../../page";
 import { Minus } from "lucide-react";
+import { FoodItemType } from "../../page";
 
-export type foodCard = {
-  id: number;
-  image: string;
-  price: string;
-  overview: string;
-  title: string;
-  categoryId: string;
-};
-
-export const MiniFoodCard = ({ image, title, overview, price }: foodCard) => {
+export const MiniFoodCard = ({
+  image,
+  title,
+  overview,
+  price,
+}: FoodItemType) => {
   const [foodCount, setFoodcount] = useState<number>(1);
   const handlePlusButtonClick = () => {
     setFoodcount((prev) => prev + 1);

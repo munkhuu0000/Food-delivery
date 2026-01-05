@@ -5,7 +5,7 @@ import { useCart } from "./_components/context/CartContext";
 import { MainPage } from "./_components/MainPage/MainPage";
 import { toast } from "sonner";
 
-export interface FoodItem {
+export interface FoodItemType {
   id: number;
   image: string;
   title: string;
@@ -94,8 +94,8 @@ export const foodItems = [
 
 export default function Home() {
   const { addToCart, setisCartOpen, getTotalItems } = useCart();
-  const [selectedFood, setSelectedFood] = useState<FoodItem | null>(null);
-  const handleAddtoCart = (food: FoodItem, quantity: number) => {
+  const [selectedFood, setSelectedFood] = useState<FoodItemType | null>(null);
+  const handleAddtoCart = (food: FoodItemType, quantity: number) => {
     for (let i = 0; i < quantity; i++) addToCart(food);
     setSelectedFood(null);
     toast.success("Food is being added to the cart!");
