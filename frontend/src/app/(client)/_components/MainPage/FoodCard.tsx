@@ -12,50 +12,51 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { FoodItemType } from "../../page";
+import { FoodItemType, foodItems } from "../../page";
+import { useCart } from "../context/CartContext";
 
-export const FoodCard = ({ image, title, overview, price }: FoodItemType) => {
+export const FoodCard = (props: FoodItemType) => {
+  const { setSelectedFood, selectedFood, handleAddtoCart } = useCart();
   const [isAdded, setIsAdded] = useState(false);
-  const handleButtonClick = () => {
-    setIsAdded((prev) => !prev);
+  const [quantity, setQuantity] = useState(1);
+  const getTotalPrice = () => {
+    if (!foodItems) return "$0.00";
+    else return `$${(price * quantity).toFixed(2)}`;
   };
-  const [foodCount, setFoodcount] = useState<number>(1);
-  const handlePlusButtonClick = () => {
-    setFoodcount((prev) => prev + 1);
+  const { id, image, title, overview, price, categoryId } = props;
+
+  const onAddToCartClick = (item: FoodItemType, qty: number) => {
+    handleAddtoCart(item, qty);
+    setQuantity(1);
   };
-  const handleMinusButtonClick = () => {
-    setFoodcount((prev) => prev - 1);
-  };
-  // const totalPrice = price * foodCount;
+
   return (
-    <>
-      <div className="w-99.5 h-87 rounded-4xl p-4 bg-[#FFFFFF] flex flex-col gap-2 relative">
-        <div className="w-91.5 h-52.5 rounded-4xl">
+    <Dialog>
+      <div className="relative group w-99.5 rounded-4xl p-4 bg-[#FFFFFF] ">
+        <div className="w-full h-52.5 rounded-4xl overflow-hidden">
           <img
             src={image}
             alt=""
-            className="w-91.5 h-52.5 object-cover rounded-4xl"
+            className="w-full h-full object-cover rounded-4xl transform group-hover:scale-105 transition-transform duration-300"
           />
         </div>
-        <div className="flex flex-row justify-between">
+        <div className="mt-4 flex flex-row justify-between">
           <p className="text-[#EF4444] text-2xl font-semibold">{title}</p>
           <p className="text-[#09090B] text-[18px] font-semibold">${price}</p>
         </div>
         <p className="text-[#09090B] text-[14px] font-normal">{overview}</p>
-      </div>
-      <Dialog>
-        <DialogTrigger>
-          <div
-            className="w-11 h-11 rounded-full z-10 absolute top-[48%] left-[80%] flex items-center
-        justify-center transition-all duration-300 bg-[#FFFFFF] shadow-lg"
-            onClick={handleButtonClick}
+        <DialogTrigger asChild>
+          <Button
+            className="w-11 h-11 rounded-full z-10 absolute bottom-30 right-10 flex items-center
+          justify-center transition-all duration-300 bg-[#FFFFFF] shadow-lg"
+            onClick={() => setSelectedFood}
           >
             {isAdded ? (
               <Check className="w-6 h-6 text-[#EF4444]" />
             ) : (
               <Plus className="w-6 h-6 text-[#EF4444]" />
             )}
-          </div>
+          </Button>
         </DialogTrigger>
         <DialogContent className="min-w-206.5 min-h-103 bg-[#FFFFFF] p-6 gap-6 flex justify-center items-center rounded-4xl [&>button]:hidden">
           <DialogHeader className="sr-only">
@@ -83,26 +84,25 @@ export const FoodCard = ({ image, title, overview, price }: FoodItemType) => {
                 {overview}
               </p>
             </div>
-            <div className="w-full flex flex-col justify-between items-center">
-              <div className="flex flex-row justify-between   ">
+            <div className="w-full flex flex-col items-center gap-6">
+              <div className="w-full flex flex-row justify-between">
                 <div className="flex flex-col">
                   <p className="text-[16px] font-normal">Total price</p>
                   <p className="text-[#09090B] text-[24px] font-semibold flex items-center justify-center">
-                    {/* ${totalPrice.toFixed(2)} */}
+                    {getTotalPrice()}
                   </p>
                 </div>
                 <div className="flex flex-row gap-3 items-center">
                   <Button
-                    onClick={handleMinusButtonClick}
+                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
                     variant={"outline"}
                     className="w-11 h-11 border-0 rounded-full hover:border hover:border-[#09090B]"
-                    disabled={foodCount <= 1}
                   >
                     <Minus className="w-4 h-4" />
                   </Button>
-                  <p>{foodCount}</p>
+                  {quantity}
                   <Button
-                    onClick={handlePlusButtonClick}
+                    onClick={() => setQuantity(quantity + 1)}
                     variant={"outline"}
                     className="w-11 h-11 border-0 rounded-full hover:border hover:border-[#09090B]"
                   >
@@ -110,11 +110,16 @@ export const FoodCard = ({ image, title, overview, price }: FoodItemType) => {
                   </Button>
                 </div>
               </div>
-              <Button className="w-full h-11 rounded-full">Add to cart</Button>
+              <Button
+                className="w-full h-11 rounded-full"
+                onClick={() => onAddToCartClick(props, quantity)}
+              >
+                Add to cart
+              </Button>
             </div>
           </div>
         </DialogContent>
-      </Dialog>
-    </>
+      </div>
+    </Dialog>
   );
 };

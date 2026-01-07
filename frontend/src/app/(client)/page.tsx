@@ -9,7 +9,7 @@ export interface FoodItemType {
   id: number;
   image: string;
   title: string;
-  price: string;
+  price: number;
   overview: string;
   categoryId: string;
 }
@@ -40,7 +40,7 @@ export const foodItems = [
     id: 12,
     image: "fingerfood.png",
     title: "Finger food",
-    price: "12.99",
+    price: 12.99,
     overview:
       "Fluffy pancakes stacked with fruits, cream, syrup, and powdered sugar.",
     categoryId: "C1",
@@ -49,7 +49,7 @@ export const foodItems = [
     id: 13,
     image: "fingerfood.png",
     title: "Finger food",
-    price: "12.99",
+    price: 12.99,
     overview:
       "Fluffy pancakes stacked with fruits, cream, syrup, and powdered sugar.",
     categoryId: "C1",
@@ -58,7 +58,7 @@ export const foodItems = [
     id: 14,
     image: "fingerfood.png",
     title: "Finger food1",
-    price: "12.99",
+    price: 12.99,
     overview:
       "Fluffy pancakes stacked with fruits, cream, syrup, and powdered sugar.",
     categoryId: "C2",
@@ -67,7 +67,7 @@ export const foodItems = [
     id: 15,
     image: "fingerfood.png",
     title: "Finger food2",
-    price: "12.99",
+    price: 12.99,
     overview:
       "Fluffy pancakes stacked with fruits, cream, syrup, and powdered sugar.",
     categoryId: "C3",
@@ -76,7 +76,7 @@ export const foodItems = [
     id: 16,
     image: "fingerfood.png",
     title: "Finger food",
-    price: "12.99",
+    price: 12.99,
     overview:
       "Fluffy pancakes stacked with fruits, cream, syrup, and powdered sugar.",
     categoryId: "C1",
@@ -85,7 +85,7 @@ export const foodItems = [
     id: 17,
     image: "fingerfood.png",
     title: "Finger food",
-    price: "12.99",
+    price: 12.99,
     overview:
       "Fluffy pancakes stacked with fruits, cream, syrup, and powdered sugar.",
     categoryId: "C1",
@@ -93,21 +93,18 @@ export const foodItems = [
 ];
 
 export default function Home() {
-  const { addToCart, setisCartOpen, getTotalItems } = useCart();
-  const [selectedFood, setSelectedFood] = useState<FoodItemType | null>(null);
-  const handleAddtoCart = (food: FoodItemType, quantity: number) => {
-    for (let i = 0; i < quantity; i++) addToCart(food);
-    setSelectedFood(null);
-    toast.success("Food is being added to the cart!");
-  };
+  const { addToCart, setisCartOpen, getTotalItems, setSelectedFood } =
+    useCart();
+  // const [selectedFood, setSelectedFood] = useState<FoodItemType | null>(null);
+  // const handleAddtoCart = (food: FoodItemType, quantity: number) => {
+  //   for (let i = 0; i < quantity; i++) addToCart(food);
+  //   setSelectedFood(null);
+  //   toast.success("Food is being added to the cart!");
+  // };
 
   return (
     <div className="flex min-h-screen flex-col">
-      <MainPage
-        categories={foodCategory}
-        food={foodItems}
-        onItemClick={setSelectedFood}
-      />
+      <MainPage categories={foodCategory} food={foodItems} />
     </div>
   );
 }

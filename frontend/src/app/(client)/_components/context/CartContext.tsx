@@ -9,6 +9,7 @@ import {
 
 import { foodItems, FoodItemType } from "../../page";
 import { AddCartButton } from "../Header component/AddCartButton";
+import { toast } from "sonner";
 
 export type CartItem = FoodItemType & {
   quantity: number;
@@ -23,12 +24,22 @@ interface CartContextType {
   getTotalPrice: () => number;
   isCartOpen: boolean;
   setisCartOpen: (open: boolean) => void;
+  setSelectedFood: (item: FoodItemType | null) => void;
+  selectedFood: FoodItemType | null;
+  handleAddtoCart: (foodItems: FoodItemType, quantity: number) => void;
 }
 const CartContext = createContext<CartContextType>({} as CartContextType);
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setisCartOpen] = useState(false);
+  const [selectedFood, setSelectedFood] = useState<FoodItemType | null>(null);
+
+  const handleAddtoCart = (food: FoodItemType, quantity: number) => {
+    for (let i = 0; i < quantity; i++) addToCart(food);
+    setSelectedFood(null);
+    toast.success("Food is being added to the cart!");
+  };
 
   const addToCart = (item: FoodItemType) => {
     setCartItems((prevItems) => {
@@ -62,8 +73,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const getTotalPrice = () => {
     return cartItems.reduce((total, item) => {
-      const price = parseFloat(item.price.replace("$", ""));
-      return total + price * item.quantity;
+      return total + item.price * item.quantity;
     }, 0);
   };
   return (
@@ -77,6 +87,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
         getTotalPrice,
         isCartOpen,
         setisCartOpen,
+        setSelectedFood,
+        selectedFood,
+        handleAddtoCart,
       }}
     >
       {children}

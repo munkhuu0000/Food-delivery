@@ -35,6 +35,7 @@ import { CartContent } from "./CartContent";
 
 export const AddCartButton = () => {
   const {
+    getTotalItems,
     cartItems,
     removeFromCart,
     updateQuantity,
@@ -42,16 +43,21 @@ export const AddCartButton = () => {
     isCartOpen,
     setisCartOpen,
   } = useCart();
-
+  const totalItems = getTotalItems();
   const subTotal = getTotalPrice();
   const shipping = 0.99;
   const total = subTotal + shipping;
 
   return (
-    <div className="rounded-full bg-[#F4F4F5] w-9 h-9 flex justify-center items-center">
+    <div className="rounded-full bg-[#F4F4F5] w-9 h-9 flex justify-center items-center relative">
       <Sheet open={isCartOpen} onOpenChange={setisCartOpen}>
         <SheetTrigger>
           <ShoppingCart />
+          {totalItems > 0 && (
+            <span className="absolute -top-1 -right-1 bg-white text-red-500 text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center shadow-sm">
+              {totalItems}
+            </span>
+          )}
         </SheetTrigger>
         <SheetContent
           side="right"

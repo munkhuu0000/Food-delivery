@@ -6,10 +6,9 @@ import { FoodSection } from "./Foodsection";
 interface MainPageProps {
   categories: { categoryName: string; categoryId: string }[];
   food: FoodItemType[];
-  onItemClick: (item: FoodItemType) => void;
 }
 
-export const MainPage = ({ categories, food, onItemClick }: MainPageProps) => {
+export const MainPage = ({ categories, food }: MainPageProps) => {
   return (
     <>
       <div className="w-screen ">

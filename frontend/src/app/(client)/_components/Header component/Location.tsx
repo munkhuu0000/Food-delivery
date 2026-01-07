@@ -26,6 +26,9 @@ import {
 import { useState } from "react";
 
 export const Location = () => {
+  const [location, setLocation] = useState("Add location");
+  const [open, setOpen] = useState(false);
+
   const formSchema = z.object({
     location: z.string(),
   });
@@ -37,18 +40,27 @@ export const Location = () => {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    setLocation(values.location);
+    setOpen(false);
     console.log(values);
   }
 
   return (
-    <div className="w-min-64 h-9 bg-[#FFFFFF] rounded-full flex flex-row items-center justify-center gap-1 px-3 py-2">
-      <MapPin className="w-5 h-5 text-[#EF4444]" />
-      <p className="text-[12px] font-normal text-[#EF4444]">
-        Delivery address:
-      </p>
-      <Dialog>
-        <DialogTrigger className="text-[12px] font-normal text-[#71717A] flex flex-row items-center">
-          Add location <ChevronRight />
+    <div className="w-min-64 py-4 bg-[#FFFFFF] rounded-full flex flex-row items-center justify-center gap-1 px-3">
+      <div className="flex flex-row gap-2">
+        <MapPin className="w-5 h-5 text-[#EF4444]" />
+        <p className="text-[12px] font-normal text-[#EF4444]">
+          Delivery address:
+        </p>
+      </div>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogTrigger asChild>
+          <Button
+            variant={"outline"}
+            className="w-75 min-h-9 px-10 text-[12px] font-normal text-[#71717A] flex flex-row items-center hover:text-black transition-colors border-transparent line-clamp-2 break-words block:line-clamp  text-left"
+          >
+            {location} <ChevronRight className="ml-1 w-4 h-4" />
+          </Button>
         </DialogTrigger>
         <DialogContent className="w-130.5 h-min-72">
           <DialogHeader>
