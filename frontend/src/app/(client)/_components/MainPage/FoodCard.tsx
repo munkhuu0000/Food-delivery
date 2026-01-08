@@ -28,6 +28,7 @@ export const FoodCard = (props: FoodItemType) => {
   const onAddToCartClick = (item: FoodItemType, qty: number) => {
     handleAddtoCart(item, qty);
     setQuantity(1);
+    console.log(item, qty);
   };
 
   return (
@@ -110,12 +111,14 @@ export const FoodCard = (props: FoodItemType) => {
                   </Button>
                 </div>
               </div>
-              <Button
-                className="w-full h-11 rounded-full"
-                onClick={() => onAddToCartClick(props, quantity)}
-              >
-                Add to cart
-              </Button>
+              <DialogClose asChild>
+                <Button
+                  className="w-full h-11 rounded-full"
+                  onClick={() => onAddToCartClick(props, quantity)}
+                >
+                  Add to cart
+                </Button>
+              </DialogClose>
             </div>
           </div>
         </DialogContent>

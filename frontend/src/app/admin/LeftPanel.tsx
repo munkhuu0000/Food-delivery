@@ -7,14 +7,14 @@ import Link from "next/link";
 
 export const LeftPanel = () => {
   return (
-    <div className="w-51.25 h-min-screen bg-[#FFFFFF] flex px-5 py-9 flex-col gap-10 border-2 border-amber-500 ">
+    <div className="w-51.25 h-min-screen bg-[#FFFFFF] flex px-5 py-9 flex-col gap-10">
       <img src="/LogoContainer.png" className="w-[165px] h-11" />
       <ToggleGroup
         type="single"
         defaultValue="food-menu"
         className="flex flex-col gap-10"
       >
-        <Link href="/admin/foodMenu">
+        <Link href="/admin">
           <ToggleGroupItem
             value="food-menu"
             aria-label="Food menu"

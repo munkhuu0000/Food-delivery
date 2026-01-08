@@ -1,12 +1,12 @@
 "use client";
 
-import { LeftPanel } from "../LeftPanel";
 import { OrderInfo } from "./OrderInfo";
 
-export default function Home() {
+const Page = () => {
   return (
     <div className="flex min-h-screen">
       <OrderInfo />
     </div>
   );
-}
+};
+export default Page;

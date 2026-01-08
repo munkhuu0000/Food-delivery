@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCart } from "./_components/context/CartContext";
 import { MainPage } from "./_components/MainPage/MainPage";
 import { toast } from "sonner";
@@ -95,12 +95,18 @@ export const foodItems = [
 export default function Home() {
   const { addToCart, setisCartOpen, getTotalItems, setSelectedFood } =
     useCart();
+  const [allCategories, setAllCategories] = useState([]);
   // const [selectedFood, setSelectedFood] = useState<FoodItemType | null>(null);
   // const handleAddtoCart = (food: FoodItemType, quantity: number) => {
   //   for (let i = 0; i < quantity; i++) addToCart(food);
   //   setSelectedFood(null);
   //   toast.success("Food is being added to the cart!");
   // };
+
+  // useEffect(() => {
+  //   // getCategories
+  //   setAllCategories([]);
+  // }, []);
 
   return (
     <div className="flex min-h-screen flex-col">

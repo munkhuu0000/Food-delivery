@@ -16,13 +16,13 @@ interface FoodSectionProps {
 export const FoodSection = (props: FoodSectionProps) => {
   const { categoryName } = props;
   return (
-    <div className="w-screen px-22 bg-[#404040] gap-13.5 flex items-center flex-col">
+    <div className="w-screen px-22 bg-[#404040] flex items-center flex-col pt-10">
       <Link href={`/menu/${categoryName}`}>
         <p className="font-semibold text-3xl text-[#FFFFFF] place-self-start;">
           {categoryName}
         </p>
       </Link>
-      <div className="w-full grid grid-cols-3 grid-rows-2 gap-3">
+      <div className="w-full grid grid-cols-3 grid-rows-2 gap-5 py-10">
         {foodItems.map((el) => (
           <FoodCard
             key={el?.id}

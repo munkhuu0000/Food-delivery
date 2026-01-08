@@ -34,12 +34,20 @@ export function FoodMenu() {
       message: "Username must be at least 2 characters.",
     }),
     foodPrice: z.number(),
+    ingredients: z.string().min(2, {
+      message: "Ingredients must be at least 2 characters.",
+    }),
+    image: z.string().min(1, {
+      message: "Image is required.",
+    }),
   });
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       foodname: "",
-      foodPrice: 0,
+      foodPrice: undefined,
+      ingredients: "",
+      image: "",
     },
   });
 
@@ -48,38 +56,104 @@ export function FoodMenu() {
   }
 
   return (
-    <div className="w-[calc(100vw-205px)] p-6 flex flex-row gap-4">
+    <div className="w-[calc(100vw-205px)] p-6 flex flex-row gap-4 ">
       <Dialog>
-        <DialogTrigger>
-          <div className="w-70 h-60 border border-[#EF4444] border-dashed stroke-dasharray='8%2c 8' flex flex-col">
-            <div className="w-10 h-10 rounded-full bg-[#EF4444] text-white">
+        <DialogTrigger asChild>
+          <div className="w-70 h-60 border border-[#EF4444] border-dashed stroke-dasharray='8%2c 8' flex flex-col justify-center items-center">
+            <Button className="w-10 h-10 rounded-full bg-[#EF4444] text-white">
               <Plus />
-            </div>
+            </Button>
             <p className="text-[14px] font-medium">Add new Dish</p>
           </div>
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent className="w-115 h-140.5 flex gap-6 flex-col">
           <DialogHeader>
             <DialogTitle></DialogTitle>
-            <DialogDescription>Add New Dish</DialogDescription>
+            <DialogDescription className="text-[18px] font-semibold text-[#09090B]">
+              Add New Dish to {`categoryName`}
+            </DialogDescription>
           </DialogHeader>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <div className="flex flex-row w-full justify-between">
+                <FormField
+                  control={form.control}
+                  name="foodname"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-[14px] font-medium">
+                        Food name
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          className=""
+                          placeholder="Type food name"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormDescription></FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="foodPrice"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-[14px] font-medium">
+                        Food price
+                      </FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter price ..." {...field} />
+                      </FormControl>
+                      <FormDescription></FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
               <FormField
                 control={form.control}
-                name="foodname"
+                name="ingredients"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Food name</FormLabel>
+                    <FormLabel className="text-[14px] font-medium">
+                      Ingeredients
+                    </FormLabel>
                     <FormControl>
-                      <Input placeholder="Type food name" {...field} />
+                      <Input
+                        className="w-full h-22.5 flex justify-start items-start"
+                        placeholder="List ingredients ..."
+                        {...field}
+                      />
                     </FormControl>
                     <FormDescription></FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <Button type="submit">Submit</Button>
+              <FormField
+                control={form.control}
+                name="ingredients"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-[14px] font-medium">
+                      Ingeredients
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        className="w-full h-22.5 flex justify-start items-start"
+                        placeholder="List ingredients ..."
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription></FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit">Add dish</Button>
             </form>
           </Form>
         </DialogContent>

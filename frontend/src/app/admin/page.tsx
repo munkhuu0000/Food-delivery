@@ -1,8 +1,14 @@
 "use client";
 
-import { LeftPanel } from "./LeftPanel";
-import { OrderInfo } from "./order/OrderInfo";
+import { FoodBadge } from "./foodMenu/FoodBadge";
+import { FoodMenu } from "./foodMenu/FoodMenu";
 
-export default function Home() {
-  return <div className="flex min-h-screen"></div>;
-}
+const Page = () => {
+  return (
+    <div className="flex min-h-screen flex-col">
+      <FoodBadge />
+      <FoodMenu />
+    </div>
+  );
+};
+export default Page;
