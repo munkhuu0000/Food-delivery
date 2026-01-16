@@ -12,18 +12,26 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { FoodItemType, foodItems } from "../../page";
 import { useCart } from "../context/CartContext";
+import { FoodType, CategoriesType } from "@/app/admin/page";
+interface FoodItemType {
+  id: string;
+  image: string;
+  overview: string;
+  title: string;
+  price: number;
+  categoryId: { _id: string; name: string }[];
+}
 
 export const FoodCard = (props: FoodItemType) => {
   const { setSelectedFood, selectedFood, handleAddtoCart } = useCart();
   const [isAdded, setIsAdded] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const getTotalPrice = () => {
-    if (!foodItems) return "$0.00";
+    if (!quantity) return "$0.00";
     else return `$${(price * quantity).toFixed(2)}`;
   };
-  const { id, image, title, overview, price, categoryId } = props;
+  const { id, image, overview, title, price, categoryId } = props;
 
   const onAddToCartClick = (item: FoodItemType, qty: number) => {
     handleAddtoCart(item, qty);
@@ -43,7 +51,7 @@ export const FoodCard = (props: FoodItemType) => {
         </div>
         <div className="mt-4 flex flex-row justify-between">
           <p className="text-[#EF4444] text-2xl font-semibold">{title}</p>
-          <p className="text-[#09090B] text-[18px] font-semibold">${price}</p>
+          <p className="text-[#09090B] text-[18px] font-semibold">₮{price}</p>
         </div>
         <p className="text-[#09090B] text-[14px] font-normal">{overview}</p>
         <DialogTrigger asChild>

@@ -1,20 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import { FoodItemType, foodItems } from "../../page";
+import { FoodType, CategoriesType } from "@/app/admin/page";
 import { FoodCard } from "./FoodCard";
 
 // type FoodSectionProps = {
 //   categoryName: string;
 // };
 interface FoodSectionProps {
-  key: string;
   categoryName: string;
   id: string;
+  food: FoodType[];
 }
 
 export const FoodSection = (props: FoodSectionProps) => {
-  const { categoryName } = props;
+  const { categoryName, id, food } = props;
   return (
     <div className="w-screen px-22 bg-[#404040] flex items-center flex-col pt-10">
       <Link href={`/menu/${categoryName}`}>
@@ -23,15 +23,15 @@ export const FoodSection = (props: FoodSectionProps) => {
         </p>
       </Link>
       <div className="w-full grid grid-cols-3 grid-rows-2 gap-5 py-10">
-        {foodItems.map((el) => (
+        {food.map((el) => (
           <FoodCard
-            key={el?.id}
-            id={el.id}
+            key={el?._id}
+            id={el._id}
             image={el.image}
-            overview={el.overview}
-            title={el.title}
+            overview={el.ingredients}
+            title={el.name}
             price={el.price}
-            categoryId={el.categoryId}
+            categoryId={el.categoryIds}
           />
         ))}
       </div>

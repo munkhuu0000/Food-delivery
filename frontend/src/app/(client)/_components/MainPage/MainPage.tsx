@@ -1,14 +1,13 @@
 "use client";
 
-import { FoodItemType } from "../../page";
-import { FoodCard } from "./FoodCard";
+import { FoodType, CategoriesType } from "@/app/admin/page";
 import { FoodSection } from "./Foodsection";
 interface MainPageProps {
-  categories: { categoryName: string; categoryId: string }[];
-  food: FoodItemType[];
+  categories: CategoriesType[];
+  foods: FoodType[];
 }
 
-export const MainPage = ({ categories, food }: MainPageProps) => {
+export const MainPage = ({ categories, foods }: MainPageProps) => {
   return (
     <>
       <div className="w-screen ">
@@ -17,9 +16,10 @@ export const MainPage = ({ categories, food }: MainPageProps) => {
       <div>
         {categories.slice(1, 5).map((el) => (
           <FoodSection
-            key={el?.categoryId}
-            categoryName={el?.categoryName}
-            id={el?.categoryId}
+            key={el?._id}
+            categoryName={el?.name}
+            id={el?._id}
+            food={foods}
           />
         ))}
       </div>
