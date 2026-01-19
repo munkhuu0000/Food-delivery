@@ -23,7 +23,7 @@ import {
 import { Images, Plus, Upload, X } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { undefined, z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -49,7 +49,7 @@ export function FoodMenu(props: FoodMenuProps) {
   const [open, setOpen] = useState(false);
   const [uploadedImageUrl, setUploadedImageUrl] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [isUploading, setIsUploading]=useState(false)
+  const [isUploading, setIsUploading] = useState(false);
 
   const formSchema = z.object({
     foodname: z.string().min(2, {
@@ -60,66 +60,72 @@ export function FoodMenu(props: FoodMenuProps) {
     ingredients: z.string().min(2, {
       message: "Ingredients must be at least 2 characters.",
     }),
-    image: z.file().min(1, {
+    image: z.string().min(1, {
       message: "Image is required.",
     }),
   });
-   const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       foodname: "",
       foodPrice: 0,
       category: "",
       ingredients: "",
-      image: undefined,
+      image: "",
     },
   });
 
-  const handleFileUpload =async (event:React.ChangeEvent<HTMLInputElement>)=>{
-      const file=event.target.files?.[0];
-      if (!file) return;
-      setIsUploading(true)
-   try{
-    const response= await fetch(
-      `/api/upload?filename=${encodeURIComponent(file.name)}`,
-      {method:"POST", body:file}
-    )
-    if (!response.ok) {
-      const error= await response.json()
-      console.error("Upload error:", error)
-      alert(`Upload failed: ${error.details || error.error}`)
-      return;
+  const handleFileUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    setIsUploading(true);
+    try {
+      const response = await fetch(
+        `/api/upload?filename=${encodeURIComponent(file.name)}`,
+        { method: "POST", body: file },
+      );
+      if (!response.ok) {
+        const error = await response.json();
+        console.error("Upload error:", error);
+        alert(`Upload failed: ${error.details || error.error}`);
+        return;
+      }
+      const blob = await response.json();
+      setUploadedImageUrl(blob.url);
+      form.setValue("image", blob.url);
+    } catch (error) {
+      console.error("Upload failed:", error);
+      alert("Upload failer. Please try again later.");
+    } finally {
+      setIsUploading(false);
     }
-    const blob= await response.json()
-    setUploadedImageUrl(blob.url)
-    form.setValue("image", blob.url)
-   } catch (error){console.error("Upload failed:", error)
-    alert("Upload failer. Please try again later.")
-   } finally{setIsUploading(false)} }
+  };
 
-const removeImage=()=>{
-  setUploadedImageUrl("");
-  form.setValue("image", "");
-  if (fileInputRef.current){
-    fileInputRef.current.value=""
-  }
-}
-  
- 
-  function onSubmit= async(values:FoodType)=> {
-    await api.post("foods/create", {
-      name:values.name, 
-      price:values.price,
-      ingredients:values.ingredients,
-      image:values.image,
-      categoryIds:[values.categoryIds]
-    })
+  const removeImage = () => {
+    setUploadedImageUrl("");
+    form.setValue("image", "");
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  const onSubmit = async (
+    values: z.infer<typeof formSchema>,
+  ): Promise<void> => {
+    await api.post("foods", {
+      name: values.foodname,
+      price: values.foodPrice,
+      ingredients: values.ingredients,
+      image: values.image,
+      categoryIds: [values.category],
+    });
     form.reset();
-    setUploadedImageUrl("")
+    setUploadedImageUrl("");
     console.log(values);
     setOpen(false);
-   
-  }
+  };
 
   return (
     <div className="w-[calc(100vw-205px)] p-6 flex flex-row gap-4 flex-wrap">
@@ -263,25 +269,28 @@ const removeImage=()=>{
                         />
                         {uploadedImageUrl ? (
                           <div className="relative border-2 border-gray-300 rounded-lg overflow-hidden">
-                            <Image  
-                            src={uploadedImageUrl}
-                            alt="Uploaded food"
-                            width={400}
-                            height={300}
-                            className="w-full h-48 object-cover"
+                            <img
+                              src={uploadedImageUrl}
+                              alt="Uploaded food"
+                              width={400}
+                              height={300}
+                              className="w-full h-48 object-cover"
                             />
                             <button
-                            type="button"
-onClick={removeImage}
-className="absolute top-2 right-2 w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center">
-
-<X className="w-4  h-4"/>
-</button>
+                              type="button"
+                              onClick={removeImage}
+                              className="absolute top-2 right-2 w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center"
+                            >
+                              <X className="w-4  h-4" />
+                            </button>
                           </div>
-                        ):(
-                          <label htmlFor="file-upload" className="border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center">
-                            <Upload className="w-8 h-8 text-gray-400 mb-3"/>
-                            <p className="w-8 h-8 text-gray-400 mb-3"/>
+                        ) : (
+                          <label
+                            htmlFor="file-upload"
+                            className="border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center"
+                          >
+                            <Upload className="w-8 h-8 text-gray-400 mb-3" />
+                            <p className="w-8 h-8 text-gray-400 mb-3" />
                           </label>
                         )}
                         <div className="w-full rounded-xl flex justify-center items-center gap-3 text-[#8E8E8E]">

@@ -8,12 +8,11 @@ export const createFoods: RequestHandler = async (req, res) => {
     const foods = await FoodModel.insertMany(body);
 
     res.status(201).json({
-      message: "Amjilttai uuslee",
       count: foods.length,
       data: foods,
     });
   } catch (error) {
-    res.status(400).json({ message: "Aldaa garlaa", error });
+    res.status(400).json({ message: "error", error });
   }
 };
 //   const foods = await FoodModel.insertMany({
