@@ -9,7 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Dialog,
   DialogClose,
@@ -20,7 +20,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Images, Plus } from "lucide-react";
+import { Images, Plus, Upload, X } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -37,6 +37,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { AdminFoodCard } from "./AdminFoodCard";
 import { FoodType, CategoriesType } from "../page";
+import { api } from "@/lib/axios";
 
 type FoodMenuProps = {
   categories: CategoriesType[];
@@ -46,6 +47,9 @@ type FoodMenuProps = {
 export function FoodMenu(props: FoodMenuProps) {
   const { categories, foods } = props;
   const [open, setOpen] = useState(false);
+  const [uploadedImageUrl, setUploadedImageUrl] = useState<string>("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isUploading, setIsUploading]=useState(false)
 
   const formSchema = z.object({
     foodname: z.string().min(2, {
@@ -60,7 +64,7 @@ export function FoodMenu(props: FoodMenuProps) {
       message: "Image is required.",
     }),
   });
-  const form = useForm<z.infer<typeof formSchema>>({
+   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       foodname: "",
@@ -71,10 +75,50 @@ export function FoodMenu(props: FoodMenuProps) {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  const handleFileUpload =async (event:React.ChangeEvent<HTMLInputElement>)=>{
+      const file=event.target.files?.[0];
+      if (!file) return;
+      setIsUploading(true)
+   try{
+    const response= await fetch(
+      `/api/upload?filename=${encodeURIComponent(file.name)}`,
+      {method:"POST", body:file}
+    )
+    if (!response.ok) {
+      const error= await response.json()
+      console.error("Upload error:", error)
+      alert(`Upload failed: ${error.details || error.error}`)
+      return;
+    }
+    const blob= await response.json()
+    setUploadedImageUrl(blob.url)
+    form.setValue("image", blob.url)
+   } catch (error){console.error("Upload failed:", error)
+    alert("Upload failer. Please try again later.")
+   } finally{setIsUploading(false)} }
+
+const removeImage=()=>{
+  setUploadedImageUrl("");
+  form.setValue("image", "");
+  if (fileInputRef.current){
+    fileInputRef.current.value=""
+  }
+}
+  
+ 
+  function onSubmit= async(values:FoodType)=> {
+    await api.post("foods/create", {
+      name:values.name, 
+      price:values.price,
+      ingredients:values.ingredients,
+      image:values.image,
+      categoryIds:[values.categoryIds]
+    })
+    form.reset();
+    setUploadedImageUrl("")
     console.log(values);
     setOpen(false);
-    form.reset();
+   
   }
 
   return (
@@ -204,51 +248,41 @@ export function FoodMenu(props: FoodMenuProps) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-[14px] font-medium">
-                      Image
+                      Food image
                     </FormLabel>
                     <FormControl>
-                      <div className="w-full h-22.5 relative flex justify-center items-center">
-                        <svg
-                          style={{
-                            position: "absolute",
-                            top: 0,
-                            left: 0,
-                            width: "100%",
-                            height: "100%",
-                            pointerEvents: "none",
-                          }}
-                        >
-                          <rect
-                            x="0"
-                            y="0"
-                            width="100%"
-                            height="100%"
-                            fill="none"
-                            stroke="#2563EB33"
-                            strokeWidth="1"
-                            strokeDasharray="6 6"
-                            rx="10"
-                          />
-                        </svg>
+                      <div>
                         <Input
+                          ref={fileInputRef}
                           type="file"
-                          className="absolute top-0 left-0 opacity-0 z-10 cursor-pointer w-full h-full flex justify-start items-start"
+                          accept="image/*"
+                          className="hidden"
                           placeholder="Upload image ..."
-                          onChange={(e) => {
-                            const files = e.target.files;
-                            if (!files) return;
-                            const [file] = files;
-                            field.onChange(file);
-                          }}
+                          onChange={handleFileUpload}
+                          id="file-upload"
                         />
-                        {field.value && (
-                          <div className=" absolute w-full h-full rounded-xl overflow-hidden flex justify-center items-center">
-                            {/* <Image
-                              // src={URL.createObjectURL(field.value)}
-                              className="object-cover"
-                              // fill
-                            /> */}
+                        {uploadedImageUrl ? (
+                          <div className="relative border-2 border-gray-300 rounded-lg overflow-hidden">
+                            <Image  
+                            src={uploadedImageUrl}
+                            alt="Uploaded food"
+                            width={400}
+                            height={300}
+                            className="w-full h-48 object-cover"
+                            />
+                            <button
+                            type="button"
+onClick={removeImage}
+className="absolute top-2 right-2 w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center">
+
+<X className="w-4  h-4"/>
+</button>
                           </div>
+                        ):(
+                          <label htmlFor="file-upload" className="border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center">
+                            <Upload className="w-8 h-8 text-gray-400 mb-3"/>
+                            <p className="w-8 h-8 text-gray-400 mb-3"/>
+                          </label>
                         )}
                         <div className="w-full rounded-xl flex justify-center items-center gap-3 text-[#8E8E8E]">
                           <Images className="w-8 h-8 stroke-[0.5px] text-[#8E8E8E]" />

@@ -23,7 +23,7 @@ export const FoodSection = (props: FoodSectionProps) => {
         </p>
       </Link>
       <div className="w-full grid grid-cols-3 grid-rows-2 gap-5 py-10">
-        {food.map((el) => (
+        {food.slice(0, 6).map((el) => (
           <FoodCard
             key={el?._id}
             id={el._id}
