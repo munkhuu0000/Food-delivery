@@ -76,15 +76,16 @@ export function FoodMenu(props: FoodMenuProps) {
   });
 
   const handleFileUpload = async (
-    event: React.ChangeEvent<HTMLInputElement>,
+    event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const file = event.target.files?.[0];
     if (!file) return;
     setIsUploading(true);
+
     try {
       const response = await fetch(
         `/api/upload?filename=${encodeURIComponent(file.name)}`,
-        { method: "POST", body: file },
+        { method: "POST", body: file }
       );
       if (!response.ok) {
         const error = await response.json();
@@ -97,7 +98,7 @@ export function FoodMenu(props: FoodMenuProps) {
       form.setValue("image", blob.url);
     } catch (error) {
       console.error("Upload failed:", error);
-      alert("Upload failer. Please try again later.");
+      alert("Upload failed. Please try again later.");
     } finally {
       setIsUploading(false);
     }
@@ -112,9 +113,9 @@ export function FoodMenu(props: FoodMenuProps) {
   };
 
   const onSubmit = async (
-    values: z.infer<typeof formSchema>,
+    values: z.infer<typeof formSchema>
   ): Promise<void> => {
-    await api.post("foods", {
+    await api.post("/food", {
       name: values.foodname,
       price: values.foodPrice,
       ingredients: values.ingredients,
@@ -289,14 +290,11 @@ export function FoodMenu(props: FoodMenuProps) {
                             htmlFor="file-upload"
                             className="border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center"
                           >
-                            <Upload className="w-8 h-8 text-gray-400 mb-3" />
-                            <p className="w-8 h-8 text-gray-400 mb-3" />
+                            {/* <Upload className="w-8 h-8 text-gray-400 mb-3" /> */}
+                            <Images className="w-8 h-8 stroke-[0.5px] text-[#8E8E8E]" />
+                            <p className="text-gray-400 mb-3">Add image</p>
                           </label>
                         )}
-                        <div className="w-full rounded-xl flex justify-center items-center gap-3 text-[#8E8E8E]">
-                          <Images className="w-8 h-8 stroke-[0.5px] text-[#8E8E8E]" />
-                          Add image
-                        </div>
                       </div>
                     </FormControl>
                     <FormDescription></FormDescription>

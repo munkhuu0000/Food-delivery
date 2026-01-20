@@ -6,8 +6,8 @@ import { CartItem as CartItemtype } from "../context/CartContext";
 
 interface CartItemProps {
   item: CartItemtype;
-  onUpdateQuantity: (id: number, quantity: number) => void;
-  onRemove: (id: number) => void;
+  onUpdateQuantity: (id: string, quantity: number) => void;
+  onRemove: (id: string) => void;
 }
 
 export function CartItem({ item, onUpdateQuantity, onRemove }: CartItemProps) {
@@ -15,15 +15,15 @@ export function CartItem({ item, onUpdateQuantity, onRemove }: CartItemProps) {
     <div className="flex gap-3 bg-white rounded-lg p-3 relative border">
       <img
         src={item.image}
-        alt={item?.title}
+        alt={item?.name}
         className="w-20 h-20 object-cover rounded-lg"
       />
       <div className="flex-1">
         <h4 className="font-semibold text-red-500 text-sm mb-1">
-          {item?.title}
+          {item?.name}
         </h4>
         <p className="text-xs text-gray-600 mb-2 line-clamp-2">
-          {item?.overview}
+          {item?.ingredients}
         </p>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 border rounded-md">
@@ -31,7 +31,7 @@ export function CartItem({ item, onUpdateQuantity, onRemove }: CartItemProps) {
               variant="ghost"
               size="icon"
               className="h-7 w-7"
-              onClick={() => onUpdateQuantity(item.id, item.quantity - 1)}
+              onClick={() => onUpdateQuantity(item._id, item.quantity - 1)}
             >
               <Minus className="h-3 w-3" />
             </Button>
@@ -42,7 +42,7 @@ export function CartItem({ item, onUpdateQuantity, onRemove }: CartItemProps) {
               variant="ghost"
               size="icon"
               className="h-7 w-7"
-              onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
+              onClick={() => onUpdateQuantity(item._id, item.quantity + 1)}
             >
               <Plus className="h-3 w-3" />
             </Button>
@@ -54,7 +54,7 @@ export function CartItem({ item, onUpdateQuantity, onRemove }: CartItemProps) {
         variant="ghost"
         size="icon"
         className="absolute top-2 right-2 h-6 w-6 rounded-full hover:bg-red-100"
-        onClick={() => onRemove(item.id)}
+        onClick={() => onRemove(item._id)}
       >
         <X className="h-3 w-3 text-red-500" />
       </Button>

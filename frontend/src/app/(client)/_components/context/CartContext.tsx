@@ -7,63 +7,64 @@ import {
   useState,
 } from "react";
 
-import { foodItems, FoodItemType } from "../../page";
+import { FoodType } from "@/app/admin/page";
+// import { foodItems, FoodItemType } from "../../page";
 import { AddCartButton } from "../Header component/AddCartButton";
 import { toast } from "sonner";
 
-export type CartItem = FoodItemType & {
+export type CartItem = FoodType & {
   quantity: number;
 };
 
 interface CartContextType {
   cartItems: CartItem[];
-  addToCart: (item: FoodItemType) => void;
-  removeFromCart: (id: number) => void;
-  updateQuantity: (id: number, quantity: number) => void;
+  addToCart: (item: FoodType) => void;
+  removeFromCart: (id: string) => void;
+  updateQuantity: (id: string, quantity: number) => void;
   getTotalItems: () => number;
   getTotalPrice: () => number;
   isCartOpen: boolean;
   setisCartOpen: (open: boolean) => void;
-  setSelectedFood: (item: FoodItemType | null) => void;
-  selectedFood: FoodItemType | null;
-  handleAddtoCart: (foodItems: FoodItemType, quantity: number) => void;
+  setSelectedFood: (item: FoodType | null) => void;
+  selectedFood: FoodType | null;
+  handleAddtoCart: (foodItems: FoodType, quantity: number) => void;
 }
 const CartContext = createContext<CartContextType>({} as CartContextType);
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setisCartOpen] = useState(false);
-  const [selectedFood, setSelectedFood] = useState<FoodItemType | null>(null);
+  const [selectedFood, setSelectedFood] = useState<FoodType | null>(null);
 
-  const handleAddtoCart = (food: FoodItemType, quantity: number) => {
+  const handleAddtoCart = (food: FoodType, quantity: number) => {
     for (let i = 0; i < quantity; i++) addToCart(food);
     setSelectedFood(null);
     toast.success("Food is being added to the cart!");
   };
 
-  const addToCart = (item: FoodItemType) => {
+  const addToCart = (item: FoodType) => {
     setCartItems((prevItems) => {
-      const existingItem = prevItems.find((i) => i.id === item.id);
+      const existingItem = prevItems.find((i) => i._id === item._id);
       if (existingItem) {
         return prevItems.map((i) =>
-          i.id === item?.id ? { ...i, quantity: i.quantity + 1 } : i
+          i._id === item?._id ? { ...i, quantity: i.quantity + 1 } : i
         );
       }
       return [...prevItems, { ...item, quantity: 1 }];
     });
   };
 
-  const removeFromCart = (id: number) => {
-    setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
+  const removeFromCart = (id: string) => {
+    setCartItems((prevItems) => prevItems.filter((item) => item._id !== id));
   };
 
-  const updateQuantity = (id: number, quantity: number) => {
+  const updateQuantity = (id: string, quantity: number) => {
     if (quantity <= 0) {
       removeFromCart(id);
       return;
     }
     setCartItems((prevItems) =>
-      prevItems.map((item) => (item.id === id ? { ...item, quantity } : item))
+      prevItems.map((item) => (item._id === id ? { ...item, quantity } : item))
     );
   };
 

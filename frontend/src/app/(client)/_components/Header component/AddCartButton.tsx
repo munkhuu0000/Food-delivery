@@ -16,7 +16,6 @@ import {
 } from "@/components/ui/sheet";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MiniFoodCard } from "./MiniFoodCard";
-import { foodItems } from "../../page";
 import { X } from "lucide-react";
 import {
   Dialog,

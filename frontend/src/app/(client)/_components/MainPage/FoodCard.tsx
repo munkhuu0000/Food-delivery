@@ -14,16 +14,10 @@ import {
 } from "@/components/ui/dialog";
 import { useCart } from "../context/CartContext";
 import { FoodType, CategoriesType } from "@/app/admin/page";
-interface FoodItemType {
-  id: string;
-  image: string;
-  overview: string;
-  title: string;
-  price: number;
-  categoryId: { _id: string; name: string }[];
-}
 
-export const FoodCard = (props: FoodItemType) => {
+// s
+
+export const FoodCard = (props: FoodType) => {
   const { setSelectedFood, selectedFood, handleAddtoCart } = useCart();
   const [isAdded, setIsAdded] = useState(false);
   const [quantity, setQuantity] = useState(1);
@@ -31,9 +25,9 @@ export const FoodCard = (props: FoodItemType) => {
     if (!quantity) return "$0.00";
     else return `$${(price * quantity).toFixed(2)}`;
   };
-  const { id, image, overview, title, price, categoryId } = props;
+  const { _id, image, ingredients, name, price, categoryIds } = props;
 
-  const onAddToCartClick = (item: FoodItemType, qty: number) => {
+  const onAddToCartClick = (item: FoodType, qty: number) => {
     handleAddtoCart(item, qty);
     setQuantity(1);
     console.log(item, qty);
@@ -50,10 +44,10 @@ export const FoodCard = (props: FoodItemType) => {
           />
         </div>
         <div className="mt-4 flex flex-row justify-between">
-          <p className="text-[#EF4444] text-2xl font-semibold">{title}</p>
+          <p className="text-[#EF4444] text-2xl font-semibold">{name}</p>
           <p className="text-[#09090B] text-[18px] font-semibold">₮{price}</p>
         </div>
-        <p className="text-[#09090B] text-[14px] font-normal">{overview}</p>
+        <p className="text-[#09090B] text-[14px] font-normal">{ingredients}</p>
         <DialogTrigger asChild>
           <Button
             className="w-11 h-11 rounded-full z-10 absolute bottom-30 right-10 flex items-center
@@ -86,11 +80,9 @@ export const FoodCard = (props: FoodItemType) => {
                   <X className="w-4 h-4 rounded-full text-[#18181B]" />
                 </div>
               </DialogClose>
-              <p className="text-[#EF4444] text-[30px] font-semibold">
-                {title}
-              </p>
+              <p className="text-[#EF4444] text-[30px] font-semibold">{name}</p>
               <p className="text-[#09090B] text-[14px] font-normal">
-                {overview}
+                {ingredients}
               </p>
             </div>
             <div className="w-full flex flex-col items-center gap-6">

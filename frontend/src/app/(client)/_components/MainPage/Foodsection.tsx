@@ -26,12 +26,12 @@ export const FoodSection = (props: FoodSectionProps) => {
         {food.slice(0, 6).map((el) => (
           <FoodCard
             key={el?._id}
-            id={el._id}
+            _id={el._id}
             image={el.image}
-            overview={el.ingredients}
-            title={el.name}
+            ingredients={el.ingredients}
+            name={el.name}
             price={el.price}
-            categoryId={el.categoryIds}
+            categoryIds={el.categoryIds}
           />
         ))}
       </div>

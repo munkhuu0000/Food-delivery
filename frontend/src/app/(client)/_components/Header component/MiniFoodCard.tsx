@@ -12,16 +12,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { foodItems } from "../../page";
+// import { foodItems } from "../../page";
 import { Minus } from "lucide-react";
-import { FoodItemType } from "../../page";
+// import { FoodItemType } from "../../page";
+import { FoodType } from "@/app/admin/page";
 
-export const MiniFoodCard = ({
-  image,
-  title,
-  overview,
-  price,
-}: FoodItemType) => {
+export const MiniFoodCard = ({ image, name, ingredients, price }: FoodType) => {
   const [foodCount, setFoodcount] = useState<number>(1);
   const handlePlusButtonClick = () => {
     setFoodcount((prev) => prev + 1);
@@ -36,8 +32,10 @@ export const MiniFoodCard = ({
       <div className="flex flex-col justify-between w-76.25 h-30">
         <div className="flex flex-row">
           <div className="flex flex-col">
-            <p className="text-[#EF4444] text-[16px] font-bold">{title}</p>
-            <p className="text-[#09090B] text-[12px] font-normal">{overview}</p>
+            <p className="text-[#EF4444] text-[16px] font-bold">{name}</p>
+            <p className="text-[#09090B] text-[12px] font-normal">
+              {ingredients}
+            </p>
           </div>
           <Button className="w-9 h-9 border bg-[#FAFAFA] border-[#EF4444] text-[#EF4444] rounded-full hover:bg-[#404040]">
             <X className="w-4 h-4 rounded-full bg-transparent" />
