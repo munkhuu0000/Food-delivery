@@ -38,6 +38,7 @@ import { Input } from "@/components/ui/input";
 import { AdminFoodCard } from "./AdminFoodCard";
 import { FoodType, CategoriesType } from "../page";
 import { api } from "@/lib/axios";
+import { FoodForm } from "./FoodForm";
 
 type FoodMenuProps = {
   categories: CategoriesType[];
@@ -76,7 +77,7 @@ export function FoodMenu(props: FoodMenuProps) {
   });
 
   const handleFileUpload = async (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -85,7 +86,7 @@ export function FoodMenu(props: FoodMenuProps) {
     try {
       const response = await fetch(
         `/api/upload?filename=${encodeURIComponent(file.name)}`,
-        { method: "POST", body: file }
+        { method: "POST", body: file },
       );
       if (!response.ok) {
         const error = await response.json();
@@ -113,7 +114,7 @@ export function FoodMenu(props: FoodMenuProps) {
   };
 
   const onSubmit = async (
-    values: z.infer<typeof formSchema>
+    values: z.infer<typeof formSchema>,
   ): Promise<void> => {
     await api.post("/food", {
       name: values.foodname,
@@ -143,10 +144,11 @@ export function FoodMenu(props: FoodMenuProps) {
           <DialogHeader>
             <DialogTitle></DialogTitle>
             <DialogDescription className="text-[18px] font-semibold text-[#09090B]">
-              Add New Dish to {`categoryName`}
+              Add New Dish
             </DialogDescription>
           </DialogHeader>
-          <Form {...form}>
+          <FoodForm />
+          {/* <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
               className="space-y-3 flex flex-col justify-end"
@@ -291,7 +293,7 @@ export function FoodMenu(props: FoodMenuProps) {
                             className="border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center"
                           >
                             {/* <Upload className="w-8 h-8 text-gray-400 mb-3" /> */}
-                            <Images className="w-8 h-8 stroke-[0.5px] text-[#8E8E8E]" />
+          {/* <Images className="w-8 h-8 stroke-[0.5px] text-[#8E8E8E]" />
                             <p className="text-gray-400 mb-3">Add image</p>
                           </label>
                         )}
@@ -303,8 +305,8 @@ export function FoodMenu(props: FoodMenuProps) {
                 )}
               />
               <Button type="submit">Add dish</Button>
-            </form>
-          </Form>
+            </form> */}
+          {/* </Form> */}
         </DialogContent>
       </Dialog>
       <div className="flex-1 h-auto flex flex-row gap-4 items-start justify-start rounded-4xl flex-wrap">
@@ -317,6 +319,7 @@ export function FoodMenu(props: FoodMenuProps) {
             name={el?.name}
             price={el?.price}
             categoryIds={el?.categoryIds}
+            // categories={categories}
           />
         ))}
       </div>

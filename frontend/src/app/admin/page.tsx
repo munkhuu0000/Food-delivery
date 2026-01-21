@@ -54,6 +54,7 @@ const Page = () => {
         foods={foods}
         selectedCategoryId={selectedCategoriesId}
         onCategoryChange={setSelectedCategoriesId}
+        setCategory={setCategory}
       />
       <FoodMenu categories={category} foods={filteredFoods} />
     </div>
