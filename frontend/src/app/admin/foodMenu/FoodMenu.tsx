@@ -83,7 +83,7 @@ export function FoodMenu(props: FoodMenuProps) {
             name={el?.name}
             price={el?.price}
             categoryIds={el?.categoryIds}
-            // categories={categories}
+            onEdit={() => handleEdit(el)}
           />
         ))}
       </div>
