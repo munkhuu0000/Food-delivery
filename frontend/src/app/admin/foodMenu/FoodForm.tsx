@@ -10,10 +10,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useEffect, useRef, useState } from "react";
-import { Images, Plus, Upload, X } from "lucide-react";
+import { Images, X } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { undefined, z } from "zod";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -28,41 +28,45 @@ import { Input } from "@/components/ui/input";
 import { FoodType, CategoriesType } from "../page";
 import { api } from "@/lib/axios";
 
-type FoodMenuProps = {
+const formSchema = z.object({
+  foodname: z.string().min(2, {
+    message: "Insert valid username.",
+  }),
+  foodPrice: z.number(),
+  category: z.string(),
+  ingredients: z.string().min(2, {
+    message: "Ingredients must be at least 2 characters.",
+  }),
+  image: z.string().min(1, {
+    message: "Image is required.",
+  }),
+  _id: z.string(),
+});
+type FoodFormValues = z.infer<typeof formSchema>;
+
+type FoodFormProps = {
   categories: CategoriesType[];
+  defaultValues: FoodFormValues;
   foods: FoodType[];
+  onEdit: () => void;
 };
 
-export function FoodForm(props: FoodMenuProps) {
-  const { categories } = props;
+export function FoodForm(props: FoodFormProps) {
+  const { categories, defaultValues, onEdit } = props;
   const [open, setOpen] = useState(false);
   const [uploadedImageUrl, setUploadedImageUrl] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isUploading, setIsUploading] = useState(false);
 
-  const formSchema = z.object({
-    foodname: z.string().min(2, {
-      message: "Insert valid username.",
-    }),
-    foodPrice: z.number(),
-    category: z.string(),
-    ingredients: z.string().min(2, {
-      message: "Ingredients must be at least 2 characters.",
-    }),
-    image: z.string().min(1, {
-      message: "Image is required.",
-    }),
-  });
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<FoodFormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      foodname: "",
-      foodPrice: 0,
-      category: "",
-      ingredients: "",
-      image: "",
-    },
+    defaultValues: defaultValues,
   });
+
+  useEffect(() => {
+    form.reset(defaultValues);
+    setUploadedImageUrl(defaultValues.image || "");
+  }, [defaultValues, form]);
 
   const handleFileUpload = async (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -101,20 +105,31 @@ export function FoodForm(props: FoodMenuProps) {
     }
   };
 
-  const onSubmit = async (
-    values: z.infer<typeof formSchema>,
-  ): Promise<void> => {
-    await api.post("/food", {
-      name: values.foodname,
-      price: values.foodPrice,
-      ingredients: values.ingredients,
-      image: values.image,
-      categoryIds: [values.category],
-    });
-    form.reset();
-    setUploadedImageUrl("");
-    console.log(values);
-    setOpen(false);
+  const onSubmit = async (values: FoodFormValues): Promise<void> => {
+    try {
+      if (defaultValues._id) {
+        await api.put("/food", {
+          name: values.foodname,
+          price: values.foodPrice,
+          ingredients: values.ingredients,
+          image: values.image,
+          categoryIds: [values.category],
+        });
+      } else {
+        await api.put("/food", {
+          name: values.foodname,
+          price: values.foodPrice,
+          ingredients: values.ingredients,
+          image: values.image,
+          categoryIds: [values.category],
+        });
+      }
+    } catch {
+      form.reset();
+      setUploadedImageUrl("");
+      console.log(values);
+      setOpen(false);
+    }
   };
 
   return (
@@ -273,7 +288,9 @@ export function FoodForm(props: FoodMenuProps) {
               </FormItem>
             )}
           />
-          <Button type="submit">Add dish</Button>
+          <Button type="submit">
+            {defaultValues.foodname ? "Save changes" : "Add dish"}
+          </Button>
         </form>
       </Form>
     </div>
