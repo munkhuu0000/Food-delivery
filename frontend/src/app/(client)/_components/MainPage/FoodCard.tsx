@@ -12,7 +12,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useCart } from "../context/CartContext";
+import { useCart } from "../../../context/CartContext";
 import { FoodType, CategoriesType } from "@/app/admin/page";
 
 // s

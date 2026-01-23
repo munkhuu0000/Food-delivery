@@ -62,9 +62,7 @@ export function FoodMenu(props: FoodMenuProps) {
         <DialogContent className="w-115 flex gap-6 flex-col">
           <DialogHeader>
             <DialogTitle>{editFood ? "Edit dish" : "Add New Dish"}</DialogTitle>
-            <DialogDescription className="text-[18px] font-semibold text-[#09090B]">
-              Add New Dish
-            </DialogDescription>
+            <DialogDescription className="text-[18px] font-semibold text-[#09090B]"></DialogDescription>
           </DialogHeader>
           <FoodForm
             foods={foods}

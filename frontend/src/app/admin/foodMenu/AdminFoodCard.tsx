@@ -14,32 +14,36 @@ import {
 import { FoodType } from "../page";
 import { FoodForm } from "./FoodForm";
 
-export const AdminFoodCard = ({
-  food,
-  onEdit,
-}: {
-  food: FoodType;
+type AdminFoodCardProps = {
   onEdit: () => void;
-}) => {
+  _id: string;
+  image: string;
+  name: string;
+  ingredients: string;
+  price: number;
+  categoryIds: {
+    _id: string;
+    name: string;
+  };
+};
+
+export const AdminFoodCard = (props: AdminFoodCardProps) => {
+  const { onEdit, _id, image, name, ingredients, price, categoryIds } = props;
   return (
     <Dialog>
       <div className="relative group w-70 h-60 rounded-4xl p-3 bg-[#FFFFFF] border flex flex-col justify-center items-center ">
         <div className="w-59.5 h-32.25 rounded-4xl overflow-hidden ">
           <img
-            src={food.image}
+            src={image}
             alt=""
             className="w-full h-full object-cover rounded-4xl transform group-hover:scale-105 transition-transform duration-300"
           />
         </div>
         <div className="mt-4 w-full flex flex-row justify-between items-center">
-          <p className="text-[#EF4444] text-2xl font-semibold">{food.name}</p>
-          <p className="text-[#09090B] text-[18px] font-semibold">
-            ₮{food.price}
-          </p>
+          <p className="text-[#EF4444] text-2xl font-semibold">{name}</p>
+          <p className="text-[#09090B] text-[18px] font-semibold">₮{price}</p>
         </div>
-        <p className="text-[#09090B] text-[14px] font-normal">
-          {food.ingredients}
-        </p>
+        <p className="text-[#09090B] text-[14px] font-normal">{ingredients}</p>
         <DialogTrigger asChild>
           <Button
             onClick={(e) => {

@@ -9,7 +9,7 @@ import {
 
 import { FoodType } from "@/app/admin/page";
 // import { foodItems, FoodItemType } from "../../page";
-import { AddCartButton } from "../Header component/AddCartButton";
+import { AddCartButton } from "../(client)/_components/Header component/AddCartButton";
 import { toast } from "sonner";
 
 export type CartItem = FoodType & {
@@ -47,7 +47,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       const existingItem = prevItems.find((i) => i._id === item._id);
       if (existingItem) {
         return prevItems.map((i) =>
-          i._id === item?._id ? { ...i, quantity: i.quantity + 1 } : i
+          i._id === item?._id ? { ...i, quantity: i.quantity + 1 } : i,
         );
       }
       return [...prevItems, { ...item, quantity: 1 }];
@@ -64,7 +64,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       return;
     }
     setCartItems((prevItems) =>
-      prevItems.map((item) => (item._id === id ? { ...item, quantity } : item))
+      prevItems.map((item) => (item._id === id ? { ...item, quantity } : item)),
     );
   };
 

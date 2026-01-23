@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useCart } from "./_components/context/CartContext";
+import { useCart } from "../context/CartContext";
 import { MainPage } from "./_components/MainPage/MainPage";
 import { toast } from "sonner";
 import { FoodType, CategoriesType } from "../admin/page";

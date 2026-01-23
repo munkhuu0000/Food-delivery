@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Header } from "./_components/Header component/Header";
 import { Footer } from "./_components/Footer/Footer";
-import { CartProvider } from "./_components/context/CartContext";
+import { CartProvider } from "../context/CartContext";
 import { Toaster } from "sonner";
 
 export const metadata: Metadata = {

@@ -12,12 +12,12 @@ export type StepContextType = {
   handleBack: () => void;
 };
 export const stepContext = createContext<StepContextType>(
-  {} as StepContextType
+  {} as StepContextType,
 );
 
 export default function login() {
   const [step, setStep] = useState<number>(1);
-  const [data, setData] = useState({ emailAddress: "", password: "" });
+  const [data, setData] = useState({ username: "", password: "" });
 
   const handleNext = () => {
     setStep((prev) => Math.min(prev + 1, 4));

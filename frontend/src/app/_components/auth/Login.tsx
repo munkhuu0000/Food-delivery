@@ -16,29 +16,30 @@ import {
 import { Input } from "@/components/ui/input";
 import { _email } from "zod/v4/core";
 import { LoginHeader } from "./LoginHeader";
-import { LoginFooter } from "./LoginFooter";
-import { Dispatch, SetStateAction, useContext } from "react";
+import { Dispatch, SetStateAction, useContext, useState } from "react";
 import { stepContext, StepContextType } from "@/app/login/page";
+import { useAuth } from "@/app/context/AuthProvider";
 
 export const Login = () => {
+  const { login } = useAuth();
+
   const { handleBack, handleNext } = useContext(stepContext);
 
   const formSchema = z.object({
-    emailAddress: z.email("Invalid email. Use a format like example@email.com"),
-    password: z
-      .string("Incorrect password. Please try again")
-      .min(2, "Incorrect password. Please try again"),
+    username: z.string().min(2, "Username must be more than 2 characters."),
+    password: z.string().min(2, "Incorrect password. Please try again"),
   });
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      emailAddress: "",
+      username: "",
       password: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    await console.log(values);
+    login(values.username, values.password);
   }
 
   return (
@@ -53,15 +54,12 @@ export const Login = () => {
             <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
               <FormField
                 control={form.control}
-                name="emailAddress"
+                name="username"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel></FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="Enter your email address"
-                        {...field}
-                      />
+                      <Input placeholder="Enter your username" {...field} />
                     </FormControl>
                     <FormDescription></FormDescription>
                     <FormMessage />

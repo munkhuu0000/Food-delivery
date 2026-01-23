@@ -29,7 +29,7 @@ import {
 } from "@/components/ui/dialog";
 import { Clock } from "lucide-react";
 import { Map } from "lucide-react";
-import { useCart } from "../context/CartContext";
+import { useCart } from "../../../context/CartContext";
 import { CartContent } from "./CartContent";
 
 export const AddCartButton = () => {

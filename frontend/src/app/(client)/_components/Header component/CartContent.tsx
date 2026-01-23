@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { CartItem as CartItemType } from "../context/CartContext";
+import { CartItem as CartItemType } from "../../../context/CartContext";
 import { CartItem } from "./CartItem";
 import { EmptyCart } from "./EmptyCart";
 import { Location } from "./Location";

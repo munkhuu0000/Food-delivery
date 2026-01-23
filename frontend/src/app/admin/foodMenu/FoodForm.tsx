@@ -116,7 +116,7 @@ export function FoodForm(props: FoodFormProps) {
           categoryIds: [values.category],
         });
       } else {
-        await api.put("/food", {
+        await api.post("/food", {
           name: values.foodname,
           price: values.foodPrice,
           ingredients: values.ingredients,
