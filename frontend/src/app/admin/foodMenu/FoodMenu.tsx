@@ -20,16 +20,17 @@ import { FoodForm } from "./FoodForm";
 type FoodMenuProps = {
   categories: CategoriesType[];
   foods: FoodType[];
+  setFoods: React.Dispatch<React.SetStateAction<FoodType[]>>;
 };
 
 export function FoodMenu(props: FoodMenuProps) {
-  const { categories, foods } = props;
+  const { categories, foods, setFoods } = props;
   const [open, setOpen] = useState(false);
   const [editFood, setEditFood] = useState<FoodType | null>(null);
   const defaultValues = {
     foodname: editFood?.name || "",
     foodPrice: editFood?.price || 0,
-    category: editFood?.categoryIds[0] || "",
+    category: editFood?.categoryIds[0] || { _id: "", name: "" },
     ingredients: editFood?.ingredients || "",
     image: editFood?.image || "",
     _id: editFood?._id,
@@ -68,21 +69,13 @@ export function FoodMenu(props: FoodMenuProps) {
             foods={foods}
             categories={categories}
             defaultValues={defaultValues}
+            setFoods={setFoods}
           />
         </DialogContent>
       </Dialog>
       <div className="flex-1 h-auto flex flex-row gap-4 items-start justify-start rounded-4xl flex-wrap">
         {foods.map((el) => (
-          <AdminFoodCard
-            key={el?._id}
-            _id={el?._id}
-            image={el?.image}
-            ingredients={el?.ingredients}
-            name={el?.name}
-            price={el?.price}
-            categoryIds={el?.categoryIds}
-            onEdit={() => handleEdit(el)}
-          />
+          <AdminFoodCard key={el?._id} {...el} onEdit={() => handleEdit(el)} />
         ))}
       </div>
     </div>

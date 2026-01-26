@@ -56,7 +56,11 @@ const Page = () => {
         onCategoryChange={setSelectedCategoriesId}
         setCategory={setCategory}
       />
-      <FoodMenu categories={category} foods={filteredFoods} />
+      <FoodMenu
+        categories={category}
+        foods={filteredFoods}
+        setFoods={setFoods}
+      />
     </div>
   );
 };

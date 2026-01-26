@@ -10,7 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useEffect, useRef, useState } from "react";
-import { Images, X } from "lucide-react";
+import { Images, Trash, X } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -27,20 +27,24 @@ import {
 import { Input } from "@/components/ui/input";
 import { FoodType, CategoriesType } from "../page";
 import { api } from "@/lib/axios";
+import { error } from "console";
 
 const formSchema = z.object({
   foodname: z.string().min(2, {
     message: "Insert valid username.",
   }),
   foodPrice: z.number(),
-  category: z.string(),
+  category: z.object({
+    _id: z.string(),
+    name: z.string(),
+  }),
   ingredients: z.string().min(2, {
     message: "Ingredients must be at least 2 characters.",
   }),
   image: z.string().min(1, {
     message: "Image is required.",
   }),
-  _id: z.string(),
+  _id: z.string().optional(),
 });
 type FoodFormValues = z.infer<typeof formSchema>;
 
@@ -48,11 +52,11 @@ type FoodFormProps = {
   categories: CategoriesType[];
   defaultValues: FoodFormValues;
   foods: FoodType[];
-  onEdit: () => void;
+  setFoods: React.Dispatch<React.SetStateAction<FoodType[]>>;
 };
 
 export function FoodForm(props: FoodFormProps) {
-  const { categories, defaultValues, onEdit } = props;
+  const { categories, defaultValues, setFoods } = props;
   const [open, setOpen] = useState(false);
   const [uploadedImageUrl, setUploadedImageUrl] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -96,6 +100,23 @@ export function FoodForm(props: FoodFormProps) {
       setIsUploading(false);
     }
   };
+  const handleDelete = (id: string) => {
+    setFoods((prev) => prev.filter((food) => food._id !== id));
+  };
+
+  const handleFoodDelete = async (e: React.MouseEvent, id: string) => {
+    e.stopPropagation();
+
+    if (confirm("Are you sure to delete this food?")) {
+      try {
+        await api.delete(`food/${id}`);
+        handleDelete(id);
+      } catch (error) {
+        console.error("Can not deleted", error);
+        alert("Can not deleted.");
+      }
+    }
+  };
 
   const removeImage = () => {
     setUploadedImageUrl("");
@@ -113,15 +134,16 @@ export function FoodForm(props: FoodFormProps) {
           price: values.foodPrice,
           ingredients: values.ingredients,
           image: values.image,
-          categoryIds: [values.category],
+          categoryIds: [values.category._id],
         });
       } else {
         await api.post("/food", {
+          id: values?._id,
           name: values.foodname,
           price: values.foodPrice,
           ingredients: values.ingredients,
           image: values.image,
-          categoryIds: [values.category],
+          categoryIds: [values.category._id],
         });
       }
     } catch {
@@ -192,8 +214,13 @@ export function FoodForm(props: FoodFormProps) {
                 </FormLabel>
                 <FormControl>
                   <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
+                    onValueChange={(val) => {
+                      const selectedCategory = categories.find(
+                        (c) => c._id === val,
+                      );
+                      field.onChange(selectedCategory);
+                    }}
+                    value={field.value?._id}
                   >
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Select a category" />
@@ -288,9 +315,27 @@ export function FoodForm(props: FoodFormProps) {
               </FormItem>
             )}
           />
-          <Button type="submit">
-            {defaultValues.foodname ? "Save changes" : "Add dish"}
-          </Button>
+          {defaultValues?._id ? (
+            <div className="flex flex-row gap-2">
+              <Button
+                variant="outline"
+                type="button"
+                className="w-8 h-8 hover:border-[#EF4444]"
+                onClick={(e) => handleFoodDelete(e, defaultValues?._id || "")}
+              >
+                <Trash />
+              </Button>
+              <Button type="submit" className="flex-1 h-8">
+                {defaultValues.foodname ? "Save changes" : "Add dish"}
+              </Button>
+            </div>
+          ) : (
+            <>
+              <Button type="submit">
+                {defaultValues.foodname ? "Save changes" : "Add dish"}
+              </Button>
+            </>
+          )}
         </form>
       </Form>
     </div>
