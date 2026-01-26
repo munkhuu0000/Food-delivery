@@ -26,7 +26,7 @@ export const AdminFoodCard = (props: AdminFoodCardProps) => {
           className="w-full h-full object-cover rounded-4xl transform group-hover:scale-105 transition-transform duration-300"
         />
       </div>
-      <div className="mt-4 w-full flex flex-row justify-between items-center">
+      <div className="mt-4 w-full flex flex-row justify-between items-center gap-4">
         <p className="text-[#EF4444] text-2xl font-semibold">{name}</p>
         <p className="text-[#09090B] text-[18px] font-semibold">₮{price}</p>
       </div>

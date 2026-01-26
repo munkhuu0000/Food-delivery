@@ -27,7 +27,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { FoodType, CategoriesType } from "../page";
 import { api } from "@/lib/axios";
-import { error } from "console";
 
 const formSchema = z.object({
   foodname: z.string().min(2, {
@@ -53,11 +52,11 @@ type FoodFormProps = {
   defaultValues: FoodFormValues;
   foods: FoodType[];
   setFoods: React.Dispatch<React.SetStateAction<FoodType[]>>;
+  setOpen: (open: boolean) => void;
 };
 
 export function FoodForm(props: FoodFormProps) {
-  const { categories, defaultValues, setFoods } = props;
-  const [open, setOpen] = useState(false);
+  const { categories, defaultValues, setFoods, setOpen } = props;
   const [uploadedImageUrl, setUploadedImageUrl] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -111,6 +110,7 @@ export function FoodForm(props: FoodFormProps) {
       try {
         await api.delete(`food/${id}`);
         handleDelete(id);
+        setOpen(false);
       } catch (error) {
         console.error("Can not deleted", error);
         alert("Can not deleted.");
@@ -129,15 +129,31 @@ export function FoodForm(props: FoodFormProps) {
   const onSubmit = async (values: FoodFormValues): Promise<void> => {
     try {
       if (defaultValues._id) {
-        await api.put("/food", {
+        const response = await api.put("/food", {
           name: values.foodname,
           price: values.foodPrice,
           ingredients: values.ingredients,
           image: values.image,
           categoryIds: [values.category._id],
         });
+        setFoods((prev) =>
+          prev.map((food) =>
+            food?._id === defaultValues?._id
+              ? {
+                  ...food,
+                  ...values,
+                  name: values?.foodname,
+                  price: values.foodPrice,
+                  image: values.image,
+                  ingredients: values.ingredients,
+                  category: values.category,
+                }
+              : food,
+          ),
+        );
+        setOpen(false);
       } else {
-        await api.post("/food", {
+        const responce = await api.post("/food", {
           id: values?._id,
           name: values.foodname,
           price: values.foodPrice,
@@ -145,12 +161,14 @@ export function FoodForm(props: FoodFormProps) {
           image: values.image,
           categoryIds: [values.category._id],
         });
+        const newFood = responce.data;
+        setFoods((prev) => [...prev, newFood]);
+        setOpen(false);
       }
     } catch {
       form.reset();
       setUploadedImageUrl("");
       console.log(values);
-      setOpen(false);
     }
   };
 
@@ -265,7 +283,7 @@ export function FoodForm(props: FoodFormProps) {
           <FormField
             control={form.control}
             name="image"
-            render={({ field }) => (
+            render={({}) => (
               <FormItem>
                 <FormLabel className="text-[14px] font-medium">
                   Food image

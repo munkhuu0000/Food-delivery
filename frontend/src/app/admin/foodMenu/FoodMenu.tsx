@@ -11,7 +11,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Images, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AdminFoodCard } from "./AdminFoodCard";
 import { FoodType, CategoriesType } from "../page";
@@ -70,6 +70,7 @@ export function FoodMenu(props: FoodMenuProps) {
             categories={categories}
             defaultValues={defaultValues}
             setFoods={setFoods}
+            setOpen={setOpen}
           />
         </DialogContent>
       </Dialog>
