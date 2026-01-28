@@ -18,25 +18,43 @@ import { Input } from "@/components/ui/input";
 import { _email } from "zod/v4/core";
 import { LoginHeader } from "./LoginHeader";
 import { LoginFooter } from "./LoginFooter";
-import { useContext } from "react";
+import { Dispatch, SetStateAction, useContext } from "react";
 import { stepContext } from "@/app/login/page";
+import { useAuth } from "@/app/context/AuthProvider";
 
-export const CreateAccount = () => {
+export type UserData = {
+  username: string;
+  emailAddress: string;
+};
+
+type RegisterPropsType = {
+  userInfo: UserData;
+  setUserInfo: Dispatch<SetStateAction<UserData>>;
+};
+
+export const CreateAccount = (props: RegisterPropsType) => {
+  const { userInfo, setUserInfo } = props;
+  const { register } = useAuth();
   const { handleBack, handleNext } = useContext(stepContext);
 
   const formSchema = z.object({
     emailAddress: z.email("Invalid email. Use a format like example@email.com"),
+    username: z
+      .string()
+      .min(2, "Username must contain more than 2 characters."),
   });
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      emailAddress: "",
+      emailAddress: userInfo?.emailAddress || "",
+      username: userInfo?.username || "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
     handleNext();
+    setUserInfo(values);
   }
 
   return (
@@ -60,6 +78,20 @@ export const CreateAccount = () => {
                         placeholder="Enter your email address"
                         {...field}
                       />
+                    </FormControl>
+                    <FormDescription></FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="username"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel></FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter new username" {...field} />
                     </FormControl>
                     <FormDescription></FormDescription>
                     <FormMessage />

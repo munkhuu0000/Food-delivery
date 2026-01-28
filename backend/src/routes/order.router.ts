@@ -1,8 +1,13 @@
 import { Router } from "express";
-import { getOrders } from "../controllers/order/get-orders.js";
 import { createOrder } from "../controllers/order/create-order.js";
+import { getUserOrders } from "../controllers/order/getUserOrders.js";
+import { authMiddleWare } from "../middlewares/auth.middleware.js";
 
 const OrderRouter = Router();
-OrderRouter.get("/", getOrders).post("/", createOrder);
+OrderRouter.get("/", authMiddleWare, getUserOrders).post(
+  "/",
+  authMiddleWare,
+  createOrder,
+);
 
 export { OrderRouter };

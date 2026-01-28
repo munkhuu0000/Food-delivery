@@ -1,19 +1,16 @@
 import type { RequestHandler } from "express";
 import { OrderModel } from "../../database/schema/order.schema.js";
 
-export const createOrder: RequestHandler = async (req, res) => {
-  const body = req.body;
-
+export const getUserOrders: RequestHandler = async (req, res) => {
   const userId = req.userId;
 
   if (!userId) {
     return res.status(401).json({ message: "Unauthorized" });
   }
 
-  const order = await OrderModel.create({
-    ...body,
-    userId,
-  });
+  const orders = await OrderModel.find({ userId })
+    .populate("foods.foodId")
+    .populate("userId");
 
-  res.status(201).json(order);
+  res.status(200).json(orders);
 };

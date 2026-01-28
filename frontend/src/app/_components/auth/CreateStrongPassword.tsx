@@ -21,11 +21,14 @@ import { LoginFooter } from "./LoginFooter";
 import { ChevronLeft } from "lucide-react";
 import { useContext } from "react";
 import { stepContext } from "@/app/login/page";
+import { useAuth } from "@/app/context/AuthProvider";
+import { UserData } from "./CreateAccount";
 
 const passwordRegex =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-export const CreateStrongPassword = () => {
+export const CreateStrongPassword = ({ userInfo }: { userInfo: UserData }) => {
+  const { register } = useAuth();
   const { handleBack, handleNext } = useContext(stepContext);
   const formSchema = z
     .object({
@@ -33,7 +36,7 @@ export const CreateStrongPassword = () => {
         .string()
         .regex(
           passwordRegex,
-          "Weak password. Use numbers, symbols, lowercase letters and uppercase letters."
+          "Weak password. Use numbers, symbols, lowercase letters and uppercase letters.",
         ),
       confirmpassword: z.string(),
     })
@@ -49,7 +52,8 @@ export const CreateStrongPassword = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    await register(userInfo?.username, userInfo?.emailAddress, values.password);
     console.log(values);
     handleNext();
   }

@@ -23,7 +23,7 @@ import { useAuth } from "@/app/context/AuthProvider";
 export const Login = () => {
   const { login } = useAuth();
 
-  const { handleBack, handleNext } = useContext(stepContext);
+  const { handleNext } = useContext(stepContext);
 
   const formSchema = z.object({
     username: z.string().min(2, "Username must be more than 2 characters."),

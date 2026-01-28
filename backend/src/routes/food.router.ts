@@ -4,6 +4,7 @@ import { createFood } from "../controllers/food/create-food.js";
 import { createFoods } from "../controllers/food/create-foods.js";
 import { deleteFood } from "../controllers/food/delete-food.js";
 import { editFood } from "../controllers/food/edit-food.js";
+import { authMiddleWare } from "../middlewares/auth.middleware.js";
 
 const FoodRouter = Router();
 FoodRouter.get("/", getFoods)
