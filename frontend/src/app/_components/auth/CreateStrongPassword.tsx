@@ -2,8 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { email, z } from "zod";
-import { Checkbox } from "@/components/ui/checkbox";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -18,8 +17,8 @@ import { Input } from "@/components/ui/input";
 import { _email } from "zod/v4/core";
 import { LoginHeader } from "./LoginHeader";
 import { LoginFooter } from "./LoginFooter";
-import { ChevronLeft } from "lucide-react";
-import { useContext } from "react";
+import { ChevronLeft, Eye, EyeOff } from "lucide-react";
+import { useContext, useState } from "react";
 import { stepContext } from "@/app/login/page";
 import { useAuth } from "@/app/context/AuthProvider";
 import { UserData } from "./CreateAccount";
@@ -28,6 +27,10 @@ const passwordRegex =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
 export const CreateStrongPassword = ({ userInfo }: { userInfo: UserData }) => {
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const toggleVisibility = (): void => {
+    setIsVisible((prev) => !prev);
+  };
   const { register } = useAuth();
   const { handleBack, handleNext } = useContext(stepContext);
   const formSchema = z
@@ -79,7 +82,21 @@ export const CreateStrongPassword = ({ userInfo }: { userInfo: UserData }) => {
                   <FormItem>
                     <FormLabel></FormLabel>
                     <FormControl>
-                      <Input placeholder="Password" {...field} />
+                      <div className="flex flex-row justify-between relative">
+                        <Input
+                          type={isVisible ? "text" : "password"}
+                          placeholder="Password"
+                          {...field}
+                        />
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={toggleVisibility}
+                          className="absolute right-0"
+                        >
+                          {isVisible ? <Eye /> : <EyeOff />}
+                        </Button>
+                      </div>
                     </FormControl>
                     <FormDescription></FormDescription>
                     <FormMessage />
@@ -92,21 +109,26 @@ export const CreateStrongPassword = ({ userInfo }: { userInfo: UserData }) => {
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Input placeholder="Confirm password" {...field} />
+                      <div className="flex flex-row justify-between relative">
+                        <Input
+                          type={isVisible ? "text" : "password"}
+                          placeholder="Password"
+                          {...field}
+                        />
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={toggleVisibility}
+                          className="absolute right-0"
+                        >
+                          {isVisible ? <Eye /> : <EyeOff />}
+                        </Button>
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <p className="font-normal text-[14px] text-[#18181B]">
-                Forgot password?
-              </p>
-              <div className="flex gap-2 flex-row">
-                <Checkbox />
-                <p className="font-normal  text-[16px] text-[#71717A]">
-                  Show password
-                </p>
-              </div>
               <Button
                 type="submit"
                 className="w-full h-9 background/bg-primary"

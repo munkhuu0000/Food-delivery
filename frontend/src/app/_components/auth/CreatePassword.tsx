@@ -18,18 +18,25 @@ import { Input } from "@/components/ui/input";
 import { _email } from "zod/v4/core";
 import { LoginHeader } from "./LoginHeader";
 import { LoginFooter } from "./LoginFooter";
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 
 const passwordRegex =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
 export const Createpassword = () => {
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const toggleVisibility = (): void => {
+    setIsVisible((prev) => !prev);
+  };
+
   const formSchema = z
     .object({
       password: z
         .string()
         .regex(
           passwordRegex,
-          "Weak password. Use numbers, symbols, lowercase letters and uppercase letters."
+          "Weak password. Use numbers, symbols, lowercase letters and uppercase letters.",
         ),
       confirmpassword: z.string(),
     })
@@ -69,7 +76,11 @@ export const Createpassword = () => {
                   <FormItem>
                     <FormLabel></FormLabel>
                     <FormControl>
-                      <Input placeholder="Password" {...field} />
+                      <Input
+                        type="password"
+                        placeholder="Password"
+                        {...field}
+                      />
                     </FormControl>
                     <FormDescription></FormDescription>
                     <FormMessage />
@@ -82,7 +93,21 @@ export const Createpassword = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Input placeholder="Confirm password" {...field} />
+                      <div className="flex flex-row justify-between relative">
+                        <Input
+                          type={isVisible ? "text" : "password"}
+                          placeholder="Password"
+                          {...field}
+                        />
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={toggleVisibility}
+                          className="absolute right-0"
+                        >
+                          {isVisible ? <Eye /> : <EyeOff />}
+                        </Button>
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -92,7 +117,7 @@ export const Createpassword = () => {
                 Forgot password?
               </p>
               <div className="flex gap-2 flex-row">
-                <Checkbox />
+                <Button variant={"outline"} onClick={toggleVisibility}></Button>
                 <p className="font-normal  text-[16px] text-[#71717A]">
                   Show password
                 </p>

@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { email, z } from "zod";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -16,12 +16,18 @@ import {
 import { Input } from "@/components/ui/input";
 import { _email } from "zod/v4/core";
 import { LoginHeader } from "./LoginHeader";
-import { Dispatch, SetStateAction, useContext, useState } from "react";
-import { stepContext, StepContextType } from "@/app/login/page";
+import { useContext, useState } from "react";
+import { stepContext } from "@/app/login/page";
 import { useAuth } from "@/app/context/AuthProvider";
+import { Eye } from "lucide-react";
+import { EyeOff } from "lucide-react";
 
 export const Login = () => {
   const { login } = useAuth();
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const toggleVisibility = (): void => {
+    setIsVisible((prev) => !prev);
+  };
 
   const { handleNext } = useContext(stepContext);
 
@@ -72,7 +78,21 @@ export const Login = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Input placeholder="Password" {...field} />
+                      <div className="flex flex-row justify-between relative">
+                        <Input
+                          type={isVisible ? "text" : "password"}
+                          placeholder="Password"
+                          {...field}
+                        />
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={toggleVisibility}
+                          className="absolute right-0"
+                        >
+                          {isVisible ? <Eye /> : <EyeOff />}
+                        </Button>
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
