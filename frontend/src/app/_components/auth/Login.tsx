@@ -88,7 +88,7 @@ export const Login = () => {
                           type="button"
                           variant="outline"
                           onClick={toggleVisibility}
-                          className="absolute right-0"
+                          className="absolute right-0 "
                         >
                           {isVisible ? <Eye /> : <EyeOff />}
                         </Button>
